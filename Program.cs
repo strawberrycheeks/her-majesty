@@ -1,8 +1,14 @@
 ﻿using HerMajesty;
 
-Hall hall = new Hall();
+var hall = new Hall();
 
-for (int i = 0; i < Hall.ContendersCount; i++)
+// TODO: replace with relative path
+const string Path = "E:/Courses/7-semester/c-sharp/HerMajesty/res/result.txt";
+
+using (StreamWriter writer = new StreamWriter(Path, false))
 {
-    Console.WriteLine(hall.ContenderList[i].Score + " " + hall.ContenderList[i].Name);
+    for (int i = 0; i < Hall.ContendersCount; i++)
+    {
+        writer.WriteLine($"{hall.ContenderList[i].Score} {hall.ContenderList[i].Name}");
+    }
 }
