@@ -4,15 +4,14 @@ namespace HerMajesty;
 
 public class Hall
 {
-    private List<Contender> _contenderList;
-    public List<Contender> ContenderList => _contenderList;
+    public List<Contender> ContenderList { get; }
 
     public Hall()
     {
-        _contenderList = new List<Contender>(Constants.ContendersCount);
+        ContenderList = new List<Contender>(Constants.ContendersCount);
         
-        FillContenderList(_contenderList);
-        Shuffler.Shuffle(_contenderList);
+        FillContenderList(ContenderList);
+        Shuffler.Shuffle(ContenderList);
     }
 
     private void FillContenderList(List<Contender> list)
