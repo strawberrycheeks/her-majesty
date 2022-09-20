@@ -4,16 +4,12 @@ namespace HerMajesty;
 
 public class Hall
 {
-    public const int ContendersCount = 100;
-    // TODO: replace with relative path
-    private const string Path = "E:/Courses/7-semester/c-sharp/HerMajesty/res/listOfNames.txt";
-
     private List<Contender> _contenderList;
     public List<Contender> ContenderList => _contenderList;
 
     public Hall()
     {
-        _contenderList = new List<Contender>(ContendersCount);
+        _contenderList = new List<Contender>(Constants.ContendersCount);
         
         FillContenderList(_contenderList);
         Shuffler.Shuffle(_contenderList);
@@ -21,10 +17,10 @@ public class Hall
 
     private void FillContenderList(List<Contender> list)
     {
-        using (StreamReader reader = new StreamReader(Path))
+        using (StreamReader reader = new StreamReader(Constants.ContendersPath))
         {
             string? line;
-            for (int i = 1; i <= ContendersCount; i++)
+            for (int i = 1; i <= Constants.ContendersCount; i++)
             {
                 if ((line = reader.ReadLine()) == null) break;
                 list.Add(new Contender(line, i));
