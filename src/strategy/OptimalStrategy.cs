@@ -1,9 +1,12 @@
 ﻿using HerMajesty.util;
 
-namespace HerMajesty;
+namespace HerMajesty.strategy;
 
 public class OptimalStrategy : IStrategy
 {
+    /// <summary>
+    /// TODO:
+    /// </summary>
     public Contender? ChooseBestContender(List<Contender> contenders, Friend friend)
     {
         var visited = 0;
