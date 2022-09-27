@@ -32,6 +32,10 @@ public class Castle
             }
         }
         
+        // TODO: OrderBy()
+        // lines = lines.OrderBy(x => random.Next()).ToArray();
+        
+        // TODO: class FileWriter
         // using var writer = new StreamWriter(Constants.ResultPath, false);
         // foreach (var contender in Hall.ContenderList)
         // {
