@@ -20,26 +20,25 @@ public class Castle
     {
         Hall.FillContendersList();
 
-        var cutoff = (int) Math.Round(Constants.ContendersCount / Constants.EulerNumber);
-        for (var i = 0; i < Constants.ContendersCount; i++)
-        {
-            if (i < cutoff) { continue; }
-            else
-            {
-                /*
-                 * STOPPED HERE!
-                 */
-            }
-        }
-        
+        Contender? prince = Princess.ChoosePrince(Hall.ContenderList);
+
         // TODO: OrderBy()
         // lines = lines.OrderBy(x => random.Next()).ToArray();
-        
+
         // TODO: class FileWriter
-        // using var writer = new StreamWriter(Constants.ResultPath, false);
-        // foreach (var contender in Hall.ContenderList)
-        // {
-        //     writer.WriteLine($"{contender.Score} {contender.Name}");
-        // }
+        using var writer = new StreamWriter(Constants.ResultPath, false);
+        foreach (var contender in Princess.Friend.ContenderList)
+        {
+            writer.WriteLine($"{contender.Score} {contender.Name}");
+        }
+        writer.WriteLine("=============");
+        if (prince == null)
+        {
+            writer.WriteLine("Did not choose a prince!");
+        }
+        else
+        {
+            writer.WriteLine($"{prince.Score} {prince.Name}");
+        }
     }
 }

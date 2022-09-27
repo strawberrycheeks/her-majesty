@@ -19,7 +19,7 @@ public class Hall
     /// </summary>
     public void FillContendersList()
     {
-        FileReader.ReadContendersList(ContenderList);
+        FileUtils.ReadContendersListFromFile(ContenderList);
         ContenderList.Shuffle();
     }
 }
