@@ -32,13 +32,6 @@ public class Castle
             writer.WriteLine($"{contender.Score} {contender.Name}");
         }
         writer.WriteLine("=============");
-        if (prince == null)
-        {
-            writer.WriteLine("Did not choose a prince!");
-        }
-        else
-        {
-            writer.WriteLine($"{prince.Score} {prince.Name}");
-        }
+        writer.WriteLine(prince == null ? "Did not choose a prince!" : $"{prince.Score} {prince.Name}");
     }
 }
