@@ -4,26 +4,26 @@ namespace HerMajesty;
 public class Princess
 {
     /// <summary>
-    /// TODO:
+    /// The strategy the Princess uses to choose the best contender
     /// </summary>
-    public IStrategy Strategy { get; }
+    private IStrategy _strategy;
     
     /// <summary>
-    /// TODO:
+    /// The lady-in-waiting who helps the Princess compare the contenders
     /// </summary>
-    public Friend Friend { get; }
+    public LadyInWaiting LadyInWaiting { get; }
 
     public Princess()
     {
-        Friend = new Friend();
-        Strategy = new OptimalStrategy();
+        LadyInWaiting = new LadyInWaiting();
+        _strategy = new OptimalStrategy();
     }
 
     /// <summary>
-    /// TODO:
+    /// Selects the best contender according to selected strategy
     /// </summary>
     public Contender? ChoosePrince(List<Contender> contenders)
     {
-        return Strategy.ChooseBestContender(contenders, Friend);
+        return _strategy.ChooseBestContender(contenders, LadyInWaiting);
     }
 }

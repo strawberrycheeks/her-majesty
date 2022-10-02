@@ -14,20 +14,17 @@ public class Castle
     }
     
     /// <summary>
-    /// The main method of the program where the prince is selected by the princess.
+    /// The main method of the program where the prince is selected by the princess
     /// </summary>
-    public void Method()
+    public void Run()
     {
         Hall.FillContendersList();
 
         Contender? prince = Princess.ChoosePrince(Hall.ContenderList);
 
-        // TODO: OrderBy()
-        // lines = lines.OrderBy(x => random.Next()).ToArray();
-
         // TODO: class FileWriter
         using var writer = new StreamWriter(Constants.ResultPath, false);
-        foreach (var contender in Princess.Friend.ContenderList)
+        foreach (var contender in Princess.LadyInWaiting.ContenderList)
         {
             writer.WriteLine($"{contender.Score} {contender.Name}");
         }

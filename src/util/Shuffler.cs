@@ -2,7 +2,7 @@
 
 public static class Shuffler
 {
-    private static readonly Random Random = new Random();  
+    private static readonly Random Random = new();  
 
     /// <summary>
     /// Shuffles a list of elements of type T using modern version of the
