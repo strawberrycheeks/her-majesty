@@ -26,11 +26,7 @@ public class Castle
     }
 
     /// <summary>
-    /// Prints the list of reviewed contenders and the Princess's happiness
-    /// points. Princess gets:
-    /// a) 10 points if she does not choose any of the contenders,
-    /// b) 0 if the score of the chosen contender is less than 51,
-    /// c) points are equal to the contender's score (from 51 to 100) otherwise.
+    /// Prints the list of reviewed contenders and the algorithm's result
     /// </summary>
     /// <param name="chosenPrince"> The prince who was chosen </param>
     private void PrintResult(Contender? chosenPrince)
@@ -42,7 +38,7 @@ public class Castle
         }
         writer.WriteLine("===");
 
-        var princessPoints = CalculatePrincessPoints(chosenPrince);
+        var princessPoints = Princess.CalculateHappinessPoints(chosenPrince);
         switch (princessPoints)
         {
             case 0:
@@ -55,14 +51,5 @@ public class Castle
                 writer.WriteLine($"...and they lived happily ever after! Happiness points: {princessPoints}");
                 break;
         }
-    }
-
-    private static int CalculatePrincessPoints(Contender? chosenPrince)
-    {
-        if (chosenPrince == null)
-        {
-            return 10;
-        }
-        return chosenPrince.Score > 50 ? chosenPrince.Score : 0 ;
     }
 }
