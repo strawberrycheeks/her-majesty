@@ -9,5 +9,5 @@ public interface IStrategy
     /// TODO:
     /// </summary>
     /// <returns></returns>
-    public Contender? ChooseBestContender(List<Contender> contenders);
+    public Contender? ChooseBestContender(List<Contender> contenderList);
 }

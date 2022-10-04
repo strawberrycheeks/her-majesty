@@ -15,5 +15,5 @@ public static class Constants
     /// <summary>
     /// Path to the file with names for contenders, must contain 100 unique names
     /// </summary>
-    public const string ContendersPath = "../../../res/100-unique-names.txt";
+    public const string ContenderPath = "../../../res/100-unique-names.txt";
 }

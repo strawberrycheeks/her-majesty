@@ -6,7 +6,6 @@ namespace HerMajesty;
 public class Castle
 {
     private readonly Hall _hall;
-    private readonly IStrategy _strategy;
     private readonly LadyInWaiting _ladyInWaiting;
     private readonly Princess _princess;
 
@@ -14,8 +13,8 @@ public class Castle
     {
         _hall = new Hall();
         _ladyInWaiting = new LadyInWaiting();
-        _strategy = new OptimalStrategy(_ladyInWaiting);
-        _princess = new Princess(_strategy);
+        IStrategy strategy = new OptimalStrategy(_ladyInWaiting);
+        _princess = new Princess(strategy);
     }
     
     /// <summary>
@@ -37,7 +36,7 @@ public class Castle
     private void PrintResult(Contender? chosenPrince)
     {
         using var writer = new StreamWriter(Constants.ResultPath, false);
-        foreach (var contender in _ladyInWaiting.ContenderList)
+        foreach (var contender in _ladyInWaiting.VisitedContenderList)
         {
             writer.WriteLine($"{contender.Score} {contender.Name}");
         }

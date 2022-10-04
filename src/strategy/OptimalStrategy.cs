@@ -16,11 +16,11 @@ public class OptimalStrategy : IStrategy
     /// than all the previous ones.
     /// </summary>
     /// <returns> Returns the chosen contender. </returns>
-    public Contender? ChooseBestContender(List<Contender> contenders)
+    public Contender? ChooseBestContender(List<Contender> contenderList)
     {
         var visited = 0;
         var cutoff = (int) Math.Round(Constants.ContendersCount / Math.E); // will be equal to 37
-        foreach (var contender in contenders)
+        foreach (var contender in contenderList)
         {
             visited += 1;
             _ladyInWaiting.AddAudiencedContender(contender);

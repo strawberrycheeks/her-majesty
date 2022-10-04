@@ -2,17 +2,20 @@
 
 public class LadyInWaiting
 {
-    public List<Contender> ContenderList { get; }
+    /// <summary>
+    /// Stores all visited contenders
+    /// </summary>
+    public List<Contender> VisitedContenderList { get; }
     
     /// <summary>
-    /// Stores the highest contender's score among all contenders
+    /// Stores the highest contender's score among all visited contenders
     /// </summary>
-    private int _bestContenderScore;
+    private int _bestVisitedScore;
 
     public LadyInWaiting()
     {
-        ContenderList = new List<Contender>();
-        _bestContenderScore = 0;
+        VisitedContenderList = new List<Contender>();
+        _bestVisitedScore = 0;
     }
 
     /// <summary>
@@ -22,7 +25,7 @@ public class LadyInWaiting
     /// <param name="contender"> A new contender to be added to the list </param>
     public void AddAudiencedContender(Contender contender)
     {
-        ContenderList.Add(contender);
+        VisitedContenderList.Add(contender);
         UpdateBestScore(contender);
     }
 
@@ -32,18 +35,19 @@ public class LadyInWaiting
     /// <param name="contender"> A new contender who has just been added to the list </param>
     private void UpdateBestScore(Contender contender)
     {
-        if (contender.Score > _bestContenderScore)
+        if (contender.Score > _bestVisitedScore)
         {
-            _bestContenderScore = contender.Score;
+            _bestVisitedScore = contender.Score;
         }
     }
 
     /// <summary>
-    /// Compares the score of the contender with the highest contender's score
+    /// Compares the score of the contender with the highest visited contender's score
     /// </summary>
     /// <param name="contender"> A contender whose score needs to be compared </param>
     public bool IsBetterThanPrevious(Contender contender)
     {
-        return contender.Score == _bestContenderScore;
+        return VisitedContenderList.Exists(c => c.Score == contender.Score)
+               && contender.Score == _bestVisitedScore;
     }
 }
