@@ -1,8 +1,22 @@
 ﻿using HerMajesty.strategy;
+using HerMajesty.util;
 
 namespace HerMajesty;
 public class Princess
 {
+    /// If score of the chosen prince is lower than this value, prince is bad 
+    private const int HappinessBoundary = 50;
+    
+    /// <summary>
+    /// Number of points the Princess gets if no prince was chosen
+    /// </summary>
+    private const int NoPrinceChosenScore = 10;
+    
+    /// <summary>
+    /// Number of points the Princess gets if a bad prince was chosen
+    /// </summary>
+    private const int BadPrinceChosenScore = 0;
+    
     /// <summary>
     /// The strategy the Princess uses to choose the best contender
     /// </summary>
@@ -33,8 +47,8 @@ public class Princess
     {
         if (prince == null)
         {
-            return 10;
+            return NoPrinceChosenScore;
         }
-        return prince.Score > 50 ? prince.Score : 0 ;
+        return prince.Score > HappinessBoundary ? prince.Score : BadPrinceChosenScore;
     }
 }
