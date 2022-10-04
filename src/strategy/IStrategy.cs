@@ -6,8 +6,8 @@
 public interface IStrategy
 {
     /// <summary>
-    /// TODO:
+    /// Selects the best candidate according to a given strategy
     /// </summary>
-    /// <returns></returns>
+    /// <returns> Returns a chosen contender. If no contender was chosen, returns null </returns>
     public Contender? ChooseBestContender(List<Contender> contenderList);
 }
