@@ -6,17 +6,11 @@ public class Princess
     /// <summary>
     /// The strategy the Princess uses to choose the best contender
     /// </summary>
-    private IStrategy _strategy;
-    
-    /// <summary>
-    /// The lady-in-waiting who helps the Princess compare the contenders
-    /// </summary>
-    public LadyInWaiting LadyInWaiting { get; }
+    private readonly IStrategy _strategy;
 
-    public Princess()
+    public Princess(IStrategy strategy)
     {
-        LadyInWaiting = new LadyInWaiting();
-        _strategy = new OptimalStrategy();
+        _strategy = strategy;
     }
 
     /// <summary>
@@ -24,7 +18,7 @@ public class Princess
     /// </summary>
     public Contender? ChoosePrince(List<Contender> contenders)
     {
-        return _strategy.ChooseBestContender(contenders, LadyInWaiting);
+        return _strategy.ChooseBestContender(contenders);
     }
     
     /// <summary>
@@ -33,14 +27,14 @@ public class Princess
     /// b) 0 if the score of the chosen contender is less than 51,
     /// c) points are equal to the contender's score (from 51 to 100) otherwise.
     /// </summary>
-    /// <param name="chosenPrince"> The prince who was chosen </param>
+    /// <param name="prince"> The prince who was chosen </param>
     /// <returns> Returns Princess's happiness points </returns>
-    public static int CalculateHappinessPoints(Contender? chosenPrince)
+    public static int CalculateHappinessPoints(Contender? prince)
     {
-        if (chosenPrince == null)
+        if (prince == null)
         {
             return 10;
         }
-        return chosenPrince.Score > 50 ? chosenPrince.Score : 0 ;
+        return prince.Score > 50 ? prince.Score : 0 ;
     }
 }

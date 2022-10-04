@@ -1,16 +1,21 @@
-﻿using HerMajesty.util;
+﻿using HerMajesty.strategy;
+using HerMajesty.util;
 
 namespace HerMajesty;
 
 public class Castle
 {
-    public Princess Princess { get; }
-    public Hall Hall { get; }
+    private readonly Hall _hall;
+    private readonly IStrategy _strategy;
+    private readonly LadyInWaiting _ladyInWaiting;
+    private readonly Princess _princess;
 
     public Castle()
     {
-        Princess = new Princess();
-        Hall = new Hall();
+        _hall = new Hall();
+        _ladyInWaiting = new LadyInWaiting();
+        _strategy = new OptimalStrategy(_ladyInWaiting);
+        _princess = new Princess(_strategy);
     }
     
     /// <summary>
@@ -18,9 +23,9 @@ public class Castle
     /// </summary>
     public void Run()
     {
-        Hall.FillContendersList();
+        _hall.FillContendersList();
 
-        var chosenPrince = Princess.ChoosePrince(Hall.ContenderList);
+        var chosenPrince = _princess.ChoosePrince(_hall.ContenderList);
         
         PrintResult(chosenPrince);
     }
@@ -32,7 +37,7 @@ public class Castle
     private void PrintResult(Contender? chosenPrince)
     {
         using var writer = new StreamWriter(Constants.ResultPath, false);
-        foreach (var contender in Princess.LadyInWaiting.ContenderList)
+        foreach (var contender in _ladyInWaiting.ContenderList)
         {
             writer.WriteLine($"{contender.Score} {contender.Name}");
         }

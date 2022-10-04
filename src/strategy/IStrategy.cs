@@ -5,5 +5,9 @@
 /// </summary>
 public interface IStrategy
 {
-    public Contender? ChooseBestContender(List<Contender> contenders, LadyInWaiting ladyInWaiting);
+    /// <summary>
+    /// TODO:
+    /// </summary>
+    /// <returns></returns>
+    public Contender? ChooseBestContender(List<Contender> contenders);
 }
