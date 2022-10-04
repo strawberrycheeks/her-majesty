@@ -23,10 +23,11 @@ public class OptimalStrategy : IStrategy
         foreach (var contender in contenderList)
         {
             visited += 1;
-            _ladyInWaiting.AddAudiencedContender(contender);
+            _ladyInWaiting.AddVisitedContender(contender);
             
-            if (visited >= cutoff && 
-                _ladyInWaiting.IsBetterThanPrevious(contender))
+            if (visited >= cutoff 
+                && _ladyInWaiting.IsVisited(contender) 
+                && _ladyInWaiting.IsBetterThanVisited(contender) )
             {
                 return contender;
             }

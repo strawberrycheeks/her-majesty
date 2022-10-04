@@ -23,7 +23,7 @@ public class LadyInWaiting
     /// taking into account the score of the added contender
     /// </summary>
     /// <param name="contender"> A new contender to be added to the list </param>
-    public void AddAudiencedContender(Contender contender)
+    public void AddVisitedContender(Contender contender)
     {
         VisitedContenderList.Add(contender);
         UpdateBestScore(contender);
@@ -45,9 +45,23 @@ public class LadyInWaiting
     /// Compares the score of the contender with the highest visited contender's score
     /// </summary>
     /// <param name="contender"> A contender whose score needs to be compared </param>
-    public bool IsBetterThanPrevious(Contender contender)
+    /// <returns>
+    /// Returns true, if current contender's score is greater than best
+    /// visited contenders' score; returns false otherwise
+    /// </returns>
+    public bool IsBetterThanVisited(Contender contender)
     {
-        return VisitedContenderList.Exists(c => c.Score == contender.Score)
-               && contender.Score == _bestVisitedScore;
+        return contender.Score >= _bestVisitedScore;
+    }
+
+    /// <summary>
+    /// Checks if contender has already visited the Princess
+    /// </summary>
+    /// <returns>
+    /// Returns true, if contender is visited; otherwise returns false 
+    /// </returns>
+    public bool IsVisited(Contender contender)
+    {
+        return VisitedContenderList.Exists(c => c.Score == contender.Score);
     }
 }
