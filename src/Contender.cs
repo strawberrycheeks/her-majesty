@@ -8,8 +8,7 @@ public class Contender
     public string Name { get; }
     
     /// <summary>
-    /// Score of the contender. If score > 50, it equals to the 'happiness'
-    /// points scored by the Princess  
+    /// Score of the contender 
     /// </summary>
     public int Score { get; }
 
