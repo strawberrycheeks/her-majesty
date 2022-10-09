@@ -31,8 +31,9 @@ public class OptimalStrategy : IStrategy
             visited += 1;
             _ladyInWaiting.AddVisitedContender(contender);
             
+            // Important: current contender must be already visited!
             if (visited >= cutoff
-                && _ladyInWaiting.IsBetterThanVisited(contender)) // Important: contender must be already visited!
+                && _ladyInWaiting.IsBetterThanVisited(contender)) 
             {
                 return contender;
             }
