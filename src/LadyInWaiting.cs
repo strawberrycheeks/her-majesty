@@ -44,14 +44,14 @@ public class LadyInWaiting
     /// <summary>
     /// Compares the score of the contender with the highest visited contender's score
     /// </summary>
-    /// <param name="contender"> A contender whose score needs to be compared </param>
+    /// <param name="contender"> A contender whose score needs to be compared, must be already marked as visited </param>
     /// <returns>
     /// Returns true, if current contender's score is greater than best
     /// visited contenders' score; returns false otherwise
     /// </returns>
     public bool IsBetterThanVisited(Contender contender)
     {
-        return contender.Score >= _bestVisitedScore;
+        return IsVisited(contender) && contender.Score >= _bestVisitedScore;
     }
 
     /// <summary>

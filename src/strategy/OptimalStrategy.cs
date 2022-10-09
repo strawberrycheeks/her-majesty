@@ -25,8 +25,7 @@ public class OptimalStrategy : IStrategy
             visited += 1;
             _ladyInWaiting.AddVisitedContender(contender);
             
-            if (visited >= cutoff 
-                && _ladyInWaiting.IsVisited(contender) 
+            if (visited >= cutoff
                 && _ladyInWaiting.IsBetterThanVisited(contender) )
             {
                 return contender;
