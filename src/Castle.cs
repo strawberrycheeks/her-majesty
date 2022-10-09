@@ -8,13 +8,14 @@ public class Castle
     private readonly Hall _hall;
     private readonly LadyInWaiting _ladyInWaiting;
     private readonly Princess _princess;
+    private readonly IStrategy _strategy;
 
     public Castle()
     {
         _hall = new Hall();
         _ladyInWaiting = new LadyInWaiting();
-        IStrategy strategy = new OptimalStrategy(_ladyInWaiting);
-        _princess = new Princess(strategy);
+        _strategy = new OptimalStrategy(_ladyInWaiting);
+        _princess = new Princess(_strategy);
     }
     
     /// <summary>
@@ -23,8 +24,9 @@ public class Castle
     public void Run()
     {
         _hall.FillContendersList();
-
-        var chosenPrince = _princess.ChoosePrince(_hall.ContenderList);
+        _strategy.SetContenderList(_hall.ContenderList); 
+        
+        var chosenPrince = _princess.ChoosePrince();
         
         PrintResult(chosenPrince);
     }

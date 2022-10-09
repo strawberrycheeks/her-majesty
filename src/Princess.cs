@@ -30,9 +30,9 @@ public class Princess
     /// <summary>
     /// Selects the best contender according to selected strategy
     /// </summary>
-    public Contender? ChoosePrince(List<Contender> contenderList)
+    public Contender? ChoosePrince()
     {
-        return _strategy.ChooseBestContender(contenderList);
+        return _strategy.ChooseBestContender();
     }
     
     /// <summary>
