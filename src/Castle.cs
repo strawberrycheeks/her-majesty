@@ -45,10 +45,10 @@ public class Castle
         var princessPoints = Princess.CalculateHappinessPoints(chosenPrince);
         switch (princessPoints)
         {
-            case 0:
+            case Princess.BadPrinceChosenScore:
                 writer.WriteLine($"Oh, bad choice! Happiness points: {princessPoints}");
                 break;
-            case 10:
+            case Princess.NoPrinceChosenScore:
                 writer.WriteLine($"Did not choose a prince! Happiness points: {princessPoints}");
                 break;
             default:

@@ -10,12 +10,12 @@ public class Princess
     /// <summary>
     /// Number of points the Princess gets if no prince was chosen
     /// </summary>
-    private const int NoPrinceChosenScore = 10;
+    public const int NoPrinceChosenScore = 10;
     
     /// <summary>
     /// Number of points the Princess gets if a bad prince was chosen
     /// </summary>
-    private const int BadPrinceChosenScore = 0;
+    public const int BadPrinceChosenScore = 0;
     
     /// <summary>
     /// The strategy the Princess uses to choose the best contender
