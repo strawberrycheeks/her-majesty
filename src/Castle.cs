@@ -44,7 +44,8 @@ public class Castle
         }
         writer.WriteLine("===");
 
-        var princessPoints = Princess.CalculateHappinessPoints(chosenPrince);
+        var chosenPrinceScore = chosenPrince?.Score;
+        var princessPoints = Princess.CalculateHappinessPoints(chosenPrinceScore);
         switch (princessPoints)
         {
             case Princess.BadPrinceChosenScore:

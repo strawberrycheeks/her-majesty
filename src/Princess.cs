@@ -41,14 +41,16 @@ public class Princess
     /// b) 0 if the score of the chosen contender is less than 51,
     /// c) points are equal to the contender's score (from 51 to 100) otherwise.
     /// </summary>
-    /// <param name="prince"> The prince who was chosen </param>
+    /// <param name="chosenPrinceScore"> Score of the chosen prince </param>
     /// <returns> Returns Princess's happiness points </returns>
-    public static int CalculateHappinessPoints(Contender? prince)
+    public static int CalculateHappinessPoints(int? chosenPrinceScore)
     {
-        if (prince == null)
+        if (chosenPrinceScore.HasValue)
         {
-            return NoPrinceChosenScore;
+            return chosenPrinceScore.Value > HappinessBoundary 
+                ? chosenPrinceScore.Value 
+                : BadPrinceChosenScore;
         }
-        return prince.Score > HappinessBoundary ? prince.Score : BadPrinceChosenScore;
+        return NoPrinceChosenScore;
     }
 }
