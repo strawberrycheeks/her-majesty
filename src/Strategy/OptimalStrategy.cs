@@ -1,4 +1,5 @@
-﻿using HerMajesty.Util;
+﻿using HerMajesty.Model;
+using HerMajesty.Util;
 
 namespace HerMajesty.Strategy;
 

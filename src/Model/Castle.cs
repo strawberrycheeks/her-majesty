@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using HerMajesty.Strategy;
 using HerMajesty.Util;
 
-namespace HerMajesty;
+namespace HerMajesty.Model;
 
 public class Castle : IHostedService
 {
@@ -90,10 +90,7 @@ public class Castle : IHostedService
     {
         _lifetime.ApplicationStarted.Register(() =>
         {
-            Task.Run(() =>
-            {
-                Run();
-            }, cancellationToken);
+            Task.Run(Run, cancellationToken);
         });
         return Task.CompletedTask;
     }

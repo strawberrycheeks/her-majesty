@@ -1,6 +1,6 @@
 ﻿using HerMajesty.Util;
 
-namespace HerMajesty;
+namespace HerMajesty.Model;
 
 public class Hall
 {

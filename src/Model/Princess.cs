@@ -1,6 +1,6 @@
 ﻿using HerMajesty.Strategy;
 
-namespace HerMajesty;
+namespace HerMajesty.Model;
 public class Princess
 {
     /// If score of the chosen prince is lower than this value, prince is bad 

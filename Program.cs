@@ -1,9 +1,8 @@
-﻿using HerMajesty.Strategy;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-// var castle = new Castle();
-// castle.Run();
+using HerMajesty.Strategy;
+using HerMajesty.Model;
 
 namespace HerMajesty;
 

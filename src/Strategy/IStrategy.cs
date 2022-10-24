@@ -1,4 +1,6 @@
-﻿namespace HerMajesty.Strategy;
+﻿using HerMajesty.Model;
+
+namespace HerMajesty.Strategy;
 
 /// <summary>
 /// The strategy the Princess uses to choose the best contender

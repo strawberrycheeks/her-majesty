@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace HerMajesty;
+﻿namespace HerMajesty.Model;
 
 public class Friend
 {
