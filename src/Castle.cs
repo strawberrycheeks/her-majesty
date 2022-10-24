@@ -1,34 +1,60 @@
-﻿using HerMajesty.strategy;
-using HerMajesty.util;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+using HerMajesty.Strategy;
+using HerMajesty.Util;
 
 namespace HerMajesty;
 
-public class Castle
+public class Castle : IHostedService
 {
+    private readonly IHostApplicationLifetime _lifetime;
+    private readonly ILogger<Princess> _logger;
+    
     private readonly Hall _hall;
-    private readonly LadyInWaiting _ladyInWaiting;
+    private readonly Friend _friend;
     private readonly Princess _princess;
     private readonly IStrategy _strategy;
 
-    public Castle()
+    public Castle(
+        Hall hall, 
+        Friend friend, 
+        Princess princess, 
+        IStrategy strategy,
+        ILogger<Princess> logger, 
+        IHostApplicationLifetime lifetime)
     {
-        _hall = new Hall();
-        _ladyInWaiting = new LadyInWaiting();
-        _strategy = new OptimalStrategy(_ladyInWaiting);
-        _princess = new Princess(_strategy);
+        _hall = hall;
+        _friend = friend;
+        _princess = princess;
+        _strategy = strategy;
+
+        _logger = logger;
+        _lifetime = lifetime;
     }
     
     /// <summary>
     /// The main method of the program where the prince is selected by the princess
     /// </summary>
-    public void Run()
+    private void Run()
     {
-        _hall.FillContendersList();
-        _strategy.SetContenderList(_hall.ContenderList); 
+        try
+        {
+            _hall.FillContendersList();
+            _strategy.SetContenderList(_hall.ContenderList); 
         
-        var chosenPrince = _princess.ChoosePrince();
+            var chosenPrince = _princess.ChoosePrince();
         
-        PrintResult(chosenPrince);
+            PrintResult(chosenPrince);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Unhandled exception: ${ex.Message}");
+        }
+        finally
+        {
+            _lifetime.StopApplication();
+        }
     }
 
     /// <summary>
@@ -38,7 +64,7 @@ public class Castle
     private void PrintResult(Contender? chosenPrince)
     {
         using var writer = new StreamWriter(Constants.ResultPath, false);
-        foreach (var contender in _ladyInWaiting.VisitedContenderList)
+        foreach (var contender in _friend.VisitedContenderList)
         {
             writer.WriteLine($"{contender.Score} {contender.Name}");
         }
@@ -58,5 +84,22 @@ public class Castle
                 writer.WriteLine($"...and they lived happily ever after! Happiness points: {princessPoints}");
                 break;
         }
+    }
+
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _lifetime.ApplicationStarted.Register(() =>
+        {
+            Task.Run(() =>
+            {
+                Run();
+            }, cancellationToken);
+        });
+        return Task.CompletedTask;
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

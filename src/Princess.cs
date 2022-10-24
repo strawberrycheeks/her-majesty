@@ -1,5 +1,4 @@
-﻿using HerMajesty.strategy;
-using HerMajesty.util;
+﻿using HerMajesty.Strategy;
 
 namespace HerMajesty;
 public class Princess

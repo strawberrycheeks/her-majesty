@@ -1,6 +1,8 @@
-﻿namespace HerMajesty;
+﻿using Microsoft.Extensions.Hosting;
 
-public class LadyInWaiting
+namespace HerMajesty;
+
+public class Friend
 {
     /// <summary>
     /// Stores all visited contenders
@@ -12,7 +14,7 @@ public class LadyInWaiting
     /// </summary>
     private int _bestVisitedScore;
 
-    public LadyInWaiting()
+    public Friend()
     {
         VisitedContenderList = new List<Contender>();
         _bestVisitedScore = 0;

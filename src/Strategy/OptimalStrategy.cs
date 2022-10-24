@@ -1,14 +1,14 @@
-﻿using HerMajesty.util;
+﻿using HerMajesty.Util;
 
-namespace HerMajesty.strategy;
+namespace HerMajesty.Strategy;
 
 public class OptimalStrategy : IStrategy
 {
-    private readonly LadyInWaiting _ladyInWaiting;
+    private readonly Friend _friend;
     private List<Contender>? _contenderList;
-    public OptimalStrategy(LadyInWaiting ladyInWaiting)
+    public OptimalStrategy(Friend friend)
     {
-        _ladyInWaiting = ladyInWaiting;
+        _friend = friend;
     }
 
     /// <summary>
@@ -29,11 +29,11 @@ public class OptimalStrategy : IStrategy
         foreach (var contender in _contenderList)
         {
             visited += 1;
-            _ladyInWaiting.AddVisitedContender(contender);
+            _friend.AddVisitedContender(contender);
             
             // Important: current contender must be already visited!
             if (visited >= cutoff
-                && _ladyInWaiting.IsBetterThanVisited(contender)) 
+                && _friend.IsBetterThanVisited(contender)) 
             {
                 return contender;
             }

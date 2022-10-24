@@ -1,4 +1,4 @@
-﻿namespace HerMajesty.util;
+﻿namespace HerMajesty.Util;
 
 public static class FileUtils
 {

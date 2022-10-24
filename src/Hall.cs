@@ -1,4 +1,4 @@
-﻿using HerMajesty.util;
+﻿using HerMajesty.Util;
 
 namespace HerMajesty;
 
