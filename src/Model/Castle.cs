@@ -41,13 +41,12 @@ public class Castle : IHostedService
         try
         {
             _hall.FillContendersList();
-            _strategy.SetContenderList(_hall.ContenderList); 
         
             var chosenPrince = _princess.ChoosePrince();
         
             PrintResult(chosenPrince);
         }
-        catch (Exception ex)
+        catch (SystemException ex)
         {
             _logger.LogError(ex, $"Unhandled exception: ${ex.Message}");
         }

@@ -6,10 +6,11 @@ namespace HerMajesty.Strategy;
 public class OptimalStrategy : IStrategy
 {
     private readonly Friend _friend;
-    private List<Contender>? _contenderList;
-    public OptimalStrategy(Friend friend)
+    private readonly Hall _hall;
+    public OptimalStrategy(Friend friend, Hall hall)
     {
         _friend = friend;
+        _hall = hall;
     }
 
     /// <summary>
@@ -20,14 +21,10 @@ public class OptimalStrategy : IStrategy
     /// <returns> Returns the chosen contender. </returns>
     public Contender? ChooseBestContender()
     {
-        if (_contenderList == null)
-        {
-            return null;
-        }
-        
         var visited = 0;
         var cutoff = (int) Math.Round(Constants.ContendersCount / Math.E); // will be equal to 37
-        foreach (var contender in _contenderList)
+
+        while (_hall.GetNextContender() is { } contender)
         {
             visited += 1;
             _friend.AddVisitedContender(contender);
@@ -39,12 +36,6 @@ public class OptimalStrategy : IStrategy
                 return contender;
             }
         }
-
         return null;
-    }
-
-    public void SetContenderList(List<Contender> contenderList)
-    {
-        _contenderList = contenderList;
     }
 }

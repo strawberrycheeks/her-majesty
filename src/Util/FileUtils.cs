@@ -16,7 +16,10 @@ public static class FileUtils
         for (var i = 1; i <= Constants.ContendersCount; i++)
         {
             string? line;
-            if ((line = reader.ReadLine()) == null) break;
+            if ((line = reader.ReadLine()) == null)
+            {
+                // throw new Exception("");
+            }
             contenderList.Add(new Contender(line, i));
         }
     }

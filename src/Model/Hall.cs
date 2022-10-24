@@ -8,11 +8,17 @@ public class Hall
     /// List of contenders, waiting for audience with Princess in the hall,
     /// must contain a list of 100 unique contenders
     /// </summary>
-    public List<Contender> ContenderList { get; }
+    private readonly List<Contender> _contenderList;
+
+    /// <summary>
+    /// Enumerator for the list of contenders
+    /// </summary>
+    private List<Contender>.Enumerator _enumerator;
 
     public Hall()
     {
-        ContenderList = new List<Contender>(Constants.ContendersCount);
+        _contenderList = new List<Contender>(Constants.ContendersCount);
+        _enumerator = new List<Contender>.Enumerator();
     }
 
     /// <summary>
@@ -20,7 +26,13 @@ public class Hall
     /// </summary>
     public void FillContendersList()
     {
-        FileUtils.ReadContenderListFromFile(ContenderList);
-        ContenderList.Shuffle();
+        FileUtils.ReadContenderListFromFile(_contenderList);
+        _contenderList.Shuffle();
+        _enumerator = _contenderList.GetEnumerator();
+    }
+
+    public Contender? GetNextContender()
+    {
+        return _enumerator.MoveNext() ? _enumerator.Current : null;
     }
 }
