@@ -1,6 +1,4 @@
-﻿using System.Transactions;
-
-namespace HerMajesty.Exception;
+﻿namespace HerMajesty.Exception;
 
 public class UnvisitedContenderComparedException : HerMajestyAppException
 {

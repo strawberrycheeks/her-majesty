@@ -1,7 +1,7 @@
-﻿using HerMajesty.Strategy;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using HerMajesty.Strategy;
 using HerMajesty.Util;
 
 namespace HerMajesty.Model;
