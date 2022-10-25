@@ -22,7 +22,7 @@ public class OptimalStrategy : IStrategy
     public Contender? ChooseBestContender()
     {
         var visited = 0;
-        var cutoff = (int) Math.Round(Constants.ContendersCount / Math.E); // will be equal to 37
+        var cutoff = (int) Math.Round(Constants.ContenderCount / Math.E); // will be equal to 37
 
         while (_hall.GetNextContender() is { } contender)
         {

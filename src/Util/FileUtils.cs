@@ -13,13 +13,10 @@ public static class FileUtils
     public static void ReadContenderListFromFile(List<Contender> contenderList, string path = Constants.ContenderPath)
     {
         using var reader = new StreamReader(path);
-        for (var i = 1; i <= Constants.ContendersCount; i++)
+        for (var i = 1; i <= Constants.ContenderCount; i++)
         {
             string? line;
-            if ((line = reader.ReadLine()) == null)
-            {
-                // throw new Exception("");
-            }
+            if ((line = reader.ReadLine()) == null) break;
             contenderList.Add(new Contender(line, i));
         }
     }

@@ -5,7 +5,7 @@ public static class Constants
     /// <summary>
     /// Total number of contenders 
     /// </summary>
-    public const int ContendersCount = 100;
+    public const int ContenderCount = 100;
 
     /// <summary>
     /// Path to the file with the printed algorithm's result

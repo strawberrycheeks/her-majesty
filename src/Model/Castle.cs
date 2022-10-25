@@ -41,14 +41,15 @@ public class Castle : IHostedService
         try
         {
             _hall.FillContendersList();
+            // TODO: List validation, ContenderNameRepeatedException
         
             var chosenPrince = _princess.ChoosePrince();
         
             PrintResult(chosenPrince);
         }
-        catch (SystemException ex)
+        catch (System.Exception ex)
         {
-            _logger.LogError(ex, $"Unhandled exception: ${ex.Message}");
+            _logger.LogError($"{ex.GetType()}: {ex.Message}");
         }
         finally
         {

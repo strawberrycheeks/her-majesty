@@ -1,4 +1,6 @@
-﻿namespace HerMajesty.Model;
+﻿using HerMajesty.Exception;
+
+namespace HerMajesty.Model;
 
 public class Friend
 {
@@ -51,7 +53,11 @@ public class Friend
     /// </returns>
     public bool IsBetterThanVisited(Contender contender)
     {
-        return IsVisited(contender) && contender.Score >= _bestVisitedScore;
+        if (!IsVisited(contender))
+        {
+            throw new UnvisitedContenderComparedException(contender.Name);
+        }
+        return contender.Score >= _bestVisitedScore;
     }
 
     /// <summary>
