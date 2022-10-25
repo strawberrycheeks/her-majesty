@@ -2,12 +2,12 @@
 
 namespace HerMajesty.Model;
 
-public class Friend
+public class Friend : IFriend
 {
     /// <summary>
     /// Stores all visited contenders
     /// </summary>
-    public List<Contender> VisitedContenderList { get; }
+    private readonly List<Contender> _visitedContenderList;
     
     /// <summary>
     /// Stores the highest contender's score among all visited contenders
@@ -16,7 +16,7 @@ public class Friend
 
     public Friend()
     {
-        VisitedContenderList = new List<Contender>();
+        _visitedContenderList = new List<Contender>();
         _bestVisitedScore = 0;
     }
 
@@ -27,20 +27,8 @@ public class Friend
     /// <param name="contender"> A new contender to be added to the list </param>
     public void AddVisitedContender(Contender contender)
     {
-        VisitedContenderList.Add(contender);
+        _visitedContenderList.Add(contender);
         UpdateBestScore(contender);
-    }
-
-    /// <summary>
-    /// Saves the highest contender's score among all contenders who visited the Princess 
-    /// </summary>
-    /// <param name="contender"> A new contender who has just been added to the list </param>
-    private void UpdateBestScore(Contender contender)
-    {
-        if (contender.Score > _bestVisitedScore)
-        {
-            _bestVisitedScore = contender.Score;
-        }
     }
 
     /// <summary>
@@ -59,6 +47,18 @@ public class Friend
         }
         return contender.Score >= _bestVisitedScore;
     }
+    
+    /// <summary>
+    /// Saves the highest contender's score among all contenders who visited the Princess 
+    /// </summary>
+    /// <param name="contender"> A new contender who has just been added to the list </param>
+    private void UpdateBestScore(Contender contender)
+    {
+        if (contender.Score > _bestVisitedScore)
+        {
+            _bestVisitedScore = contender.Score;
+        }
+    }
 
     /// <summary>
     /// Checks if contender has already visited the Princess
@@ -66,8 +66,8 @@ public class Friend
     /// <returns>
     /// Returns true, if contender is visited; otherwise returns false 
     /// </returns>
-    public bool IsVisited(Contender contender)
+    private bool IsVisited(Contender contender)
     {
-        return VisitedContenderList.Exists(c => c.Score == contender.Score);
+        return _visitedContenderList.Exists(c => c.Score == contender.Score);
     }
 }

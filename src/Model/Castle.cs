@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using HerMajesty.Strategy;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using HerMajesty.Strategy;
 using HerMajesty.Util;
 
 namespace HerMajesty.Model;
@@ -11,24 +11,20 @@ public class Castle : IHostedService
     private readonly IHostApplicationLifetime _lifetime;
     private readonly ILogger<Princess> _logger;
     
-    private readonly Hall _hall;
-    private readonly Friend _friend;
-    private readonly Princess _princess;
+    private readonly IHall _hall;
     private readonly IStrategy _strategy;
+    private readonly Princess _princess;
 
     public Castle(
-        Hall hall, 
-        Friend friend, 
-        Princess princess, 
+        IHall hall, 
         IStrategy strategy,
+        Princess princess, 
         ILogger<Princess> logger, 
         IHostApplicationLifetime lifetime)
     {
         _hall = hall;
-        _friend = friend;
-        _princess = princess;
         _strategy = strategy;
-
+        _princess = princess;
         _logger = logger;
         _lifetime = lifetime;
     }
@@ -64,7 +60,7 @@ public class Castle : IHostedService
     private void PrintResult(Contender? chosenPrince)
     {
         using var writer = new StreamWriter(Constants.ResultPath, false);
-        foreach (var contender in _friend.VisitedContenderList)
+        foreach (var contender in _strategy.ViewVisitedContenders())
         {
             writer.WriteLine($"{contender.Score} {contender.Name}");
         }

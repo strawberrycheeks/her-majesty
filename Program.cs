@@ -22,8 +22,8 @@ class Program
             {
                 services.AddHostedService<Castle>();
                 services.AddScoped<Princess>();
-                services.AddScoped<Hall>();
-                services.AddScoped<Friend>();
+                services.AddScoped<IHall, Hall>();
+                services.AddScoped<IFriend, Friend>();
                 services.AddScoped<IStrategy, OptimalStrategy>();
             });
     }

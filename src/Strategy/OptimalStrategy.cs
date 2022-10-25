@@ -5,12 +5,20 @@ namespace HerMajesty.Strategy;
 
 public class OptimalStrategy : IStrategy
 {
-    private readonly Friend _friend;
-    private readonly Hall _hall;
-    public OptimalStrategy(Friend friend, Hall hall)
+    /// <summary>
+    /// Stores all visited contenders
+    /// </summary>
+    private List<Contender> _visitedContenderList;
+    
+    private readonly IFriend _friend;
+    private readonly IHall _hall;
+    
+    public OptimalStrategy(IFriend friend, IHall hall)
     {
         _friend = friend;
         _hall = hall;
+        
+        _visitedContenderList = new List<Contender>();
     }
 
     /// <summary>
@@ -28,6 +36,7 @@ public class OptimalStrategy : IStrategy
         {
             visited += 1;
             _friend.AddVisitedContender(contender);
+            _visitedContenderList.Add(contender);
             
             // Important: current contender must be already visited!
             if (visited >= cutoff
@@ -37,5 +46,16 @@ public class OptimalStrategy : IStrategy
             }
         }
         return null;
+    }
+
+    /// <summary>
+    /// Allows to view the list of all visited contenders
+    /// </summary>
+    /// <returns>
+    /// Returns the list of visited contenders
+    /// </returns>
+    public List<Contender> ViewVisitedContenders()
+    {
+        return _visitedContenderList;
     }
 }

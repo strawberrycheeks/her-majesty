@@ -3,7 +3,7 @@ using HerMajesty.Util;
 
 namespace HerMajesty.Model;
 
-public class Hall
+public class Hall : IHall
 {
     /// <summary>
     /// List of contenders, waiting for audience with Princess in the hall,
@@ -23,7 +23,7 @@ public class Hall
     }
 
     /// <summary>
-    /// Returns the shuffled list of contenders
+    /// Returns the filled and shuffled list of contenders
     /// </summary>
     public void FillContendersList()
     {
@@ -34,7 +34,7 @@ public class Hall
     }
 
     /// <summary>
-    /// Get the next contender from the list
+    /// Gets the next contender from the list
     /// </summary>
     /// <returns>
     /// Returns the next contender from the list. If there are no more
@@ -45,6 +45,15 @@ public class Hall
         return _enumerator.MoveNext() ? _enumerator.Current : null;
     }
 
+    /// <summary>
+    /// Validates the list of contenders
+    /// </summary>
+    /// <exception cref="NotEnoughContendersException">
+    /// Thrown if the list does not contain the required number of contenders
+    /// </exception>
+    /// <exception cref="ContenderNameRepeatedException">
+    /// Thrown if a name appears in the list more that once
+    /// </exception>
     private void ValidateContenderList()
     {
         // TODO: Нужно ли выносить проверки в отдельный метод Validate(), или их можно выполнять при считывании имён из файла?
