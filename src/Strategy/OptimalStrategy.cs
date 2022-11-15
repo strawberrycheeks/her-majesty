@@ -12,7 +12,10 @@ public class OptimalStrategy : IStrategy
     private readonly IHall _hall;
 
     private readonly ILogger<OptimalStrategy> _logger;
-    public OptimalStrategy(IFriend friend, IHall hall, ILogger<OptimalStrategy> logger)
+    public OptimalStrategy(
+        IFriend friend, 
+        IHall hall, 
+        ILogger<OptimalStrategy> logger)
     {
         _friend = friend;
         _hall = hall;
@@ -35,10 +38,7 @@ public class OptimalStrategy : IStrategy
             visited += 1;
             _friend.AddVisitedContender(contender);
             _logger.LogDebug($"{visited} cont. visited. Current is {contender.Name}: ({contender.Score})");
-            
-            using var writer = new StreamWriter(Constants.ResultPath, true);
-            writer.WriteLine($"{contender.Name} ({contender.Score})");
-            
+
             // Important: current contender must be already visited!
             if (visited >= cutoff
                 && _friend.IsBetterThanVisited(contender)) 

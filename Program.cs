@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
 
 using HerMajesty.Strategy;
 using HerMajesty.Model;
@@ -29,13 +27,14 @@ class Program
     private static IHostBuilder CreateHostBuilder(string[] args)
     {
         return Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((_, configuration) =>
+            .ConfigureAppConfiguration((hostContext, configuration) =>
             {
                 configuration
                     .AddJsonFile("appsettings.json")
+                    .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true)
                     .Build();
             })
-            .ConfigureServices((_, services) =>
+            .ConfigureServices((hostContext, services) =>
             {
                 services
                     .AddHostedService<Castle>()
@@ -43,14 +42,27 @@ class Program
                     .AddScoped<IHall, Hall>()
                     .AddScoped<IFriend, Friend>()
                     .AddScoped<IStrategy, OptimalStrategy>();
-                
-                services
-                    .AddLogging(loggingBuilder =>
-                    {
-                        loggingBuilder.ClearProviders();
-                        loggingBuilder.AddConsole();
-                    });
-                
+
+                if (hostContext.HostingEnvironment.EnvironmentName.Equals("Development"))
+                {
+                    AddLogging(services);
+                }
             });
+    }
+
+    private static void AddLogging(IServiceCollection services)
+    {
+        services.AddLogging(builder =>
+        {
+            builder.ClearProviders();
+            services.AddLogging(loggingBuilder => {
+                loggingBuilder.AddFile("../../../logs/app-{0:yyyy}-{0:MM}-{0:dd}-{0:HH}-{0:mm}-{0:ss}.log", 
+                    fileLoggerOpts => {
+                        fileLoggerOpts.FormatLogFileName = fName => {
+                            return String.Format(fName, DateTime.Now);
+                        };
+                    });
+            });
+        });
     }
 }
