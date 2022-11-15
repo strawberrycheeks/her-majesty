@@ -1,4 +1,5 @@
-﻿using HerMajesty.Model;
+﻿using HerMajesty.Exception;
+using HerMajesty.Model;
 
 namespace HerMajesty.Util;
 
@@ -10,13 +11,21 @@ public static class FileUtils
     /// </summary>
     /// <param name="contenderList"> List of contenders to be filled </param>
     /// <param name="path"> Path to the file with the list of 100 unique names </param>
+    /// <exception cref="InvalidContendersNumberException">
+    /// Thrown if the file does not contain the required number of names
+    /// </exception>
     public static void ReadContenderListFromFile(List<Contender> contenderList, string path = Constants.ContenderPath)
     {
         using var reader = new StreamReader(path);
         for (var i = 1; i <= Constants.ContenderCount; i++)
         {
             string? line;
-            if ((line = reader.ReadLine()) == null) break;
+            if ((line = reader.ReadLine()) == null)
+            {
+                throw new InvalidContendersNumberException(
+                    i,
+                    Constants.ContenderCount);
+            }
             contenderList.Add(new Contender(line, i));
         }
     }

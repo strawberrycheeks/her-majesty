@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using HerMajesty.Strategy;
 using HerMajesty.Util;
 
 namespace HerMajesty.Model;
@@ -12,18 +11,15 @@ public class Castle : IHostedService
     private readonly ILogger<Princess> _logger;
     
     private readonly IHall _hall;
-    private readonly IStrategy _strategy;
     private readonly Princess _princess;
 
     public Castle(
         IHall hall, 
-        IStrategy strategy,
-        Princess princess, 
+        Princess princess,
         ILogger<Princess> logger, 
         IHostApplicationLifetime lifetime)
     {
         _hall = hall;
-        _strategy = strategy;
         _princess = princess;
         _logger = logger;
         _lifetime = lifetime;
@@ -37,7 +33,6 @@ public class Castle : IHostedService
         try
         {
             _hall.FillContendersList();
-            // TODO: List validation, ContenderNameRepeatedException
         
             var chosenPrince = _princess.ChoosePrince();
         
@@ -59,14 +54,14 @@ public class Castle : IHostedService
     /// <param name="chosenPrince"> The prince who was chosen </param>
     private void PrintResult(Contender? chosenPrince)
     {
-        using var writer = new StreamWriter(Constants.ResultPath, false);
-        foreach (var contender in _strategy.ViewVisitedContenders())
-        {
-            writer.WriteLine($"{contender.Score} {contender.Name}");
-        }
-        writer.WriteLine("===");
+        using var writer = new StreamWriter(Constants.ResultPath, true);
 
         var chosenPrinceScore = chosenPrince?.Score;
+        if (chosenPrince != null)
+        {
+            writer.WriteLine($"\n{chosenPrince.Name} ({chosenPrince.Score})");
+        }
+
         var princessPoints = Princess.CalculateHappinessPoints(chosenPrinceScore);
         switch (princessPoints)
         {

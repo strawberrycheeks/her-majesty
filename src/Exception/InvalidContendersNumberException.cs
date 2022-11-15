@@ -2,14 +2,14 @@
 
 namespace HerMajesty.Exception;
 
-public class NotEnoughContendersException : HerMajestyAppException
+public class InvalidContendersNumberException : HerMajestyAppException
 {
-    public NotEnoughContendersException() 
+    public InvalidContendersNumberException() 
         : base(HerMajestyAppException.DefaultMessage)
     {
     }
     
-    public NotEnoughContendersException(int read, int required, string path = Constants.ContenderPath) 
+    public InvalidContendersNumberException(int read, int required, string path = Constants.ContenderPath) 
         : base($"File {path} does not contain enough contenders. Required = {required}, got = {read}.")
     {
     }

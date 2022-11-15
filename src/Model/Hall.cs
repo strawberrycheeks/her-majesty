@@ -1,12 +1,11 @@
-﻿using HerMajesty.Exception;
-using HerMajesty.Util;
+﻿using HerMajesty.Util;
 
 namespace HerMajesty.Model;
 
 public class Hall : IHall
 {
     /// <summary>
-    /// List of contenders, waiting for audience with Princess in the hall,
+    /// List of contenders waiting for audience with Princess in the hall,
     /// must contain a list of 100 unique contenders
     /// </summary>
     private readonly List<Contender> _contenderList;
@@ -28,7 +27,6 @@ public class Hall : IHall
     public void FillContendersList()
     {
         FileUtils.ReadContenderListFromFile(_contenderList);
-        ValidateContenderList();
         _contenderList.Shuffle();
         _enumerator = _contenderList.GetEnumerator();
     }
@@ -43,34 +41,5 @@ public class Hall : IHall
     public Contender? GetNextContender()
     {
         return _enumerator.MoveNext() ? _enumerator.Current : null;
-    }
-
-    /// <summary>
-    /// Validates the list of contenders
-    /// </summary>
-    /// <exception cref="NotEnoughContendersException">
-    /// Thrown if the list does not contain the required number of contenders
-    /// </exception>
-    /// <exception cref="ContenderNameRepeatedException">
-    /// Thrown if a name appears in the list more that once
-    /// </exception>
-    private void ValidateContenderList()
-    {
-        // TODO: Нужно ли выносить проверки в отдельный метод Validate(), или их можно выполнять при считывании имён из файла?
-        if (_contenderList.Count < Constants.ContenderCount)
-        {
-            throw new NotEnoughContendersException(
-                _contenderList.Count, 
-                Constants.ContenderCount);
-        }
-        
-        foreach (var contender in _contenderList)
-        {
-            var found = _contenderList.FindAll(c => c.Name == contender.Name);
-            if (found.Count > 1)
-            {
-                throw new ContenderNameRepeatedException(contender.Name);
-            }
-        }
     }
 }
