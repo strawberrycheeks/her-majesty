@@ -14,17 +14,18 @@ public static class FileUtils
     /// <exception cref="InvalidContendersNumberException">
     /// Thrown if the file does not contain the required number of names
     /// </exception>
-    public static void ReadContenderListFromFile(List<Contender> contenderList, string path = Constants.ContenderPath)
+    public static void ReadContenderListFromFile(List<Contender> contenderList, string path)
     {
         using var reader = new StreamReader(path);
-        for (var i = 1; i <= Constants.ContenderCount; i++)
+        for (var i = 1; i <= AppSettings.ContenderCount; i++)
         {
             string? line;
             if ((line = reader.ReadLine()) == null)
             {
                 throw new InvalidContendersNumberException(
                     i,
-                    Constants.ContenderCount);
+                    AppSettings.ContenderCount, 
+                    path);
             }
             contenderList.Add(new Contender(line, i));
         }

@@ -54,7 +54,7 @@ public class Castle : IHostedService
     /// <param name="chosenPrince"> The prince who was chosen </param>
     private void PrintResult(Contender? chosenPrince)
     {
-        using var writer = new StreamWriter(Constants.ResultPath, false);
+        using var writer = new StreamWriter(AppSettings.ResultPath, false);
 
         var chosenPrinceScore = chosenPrince?.Score;
         if (chosenPrince != null)

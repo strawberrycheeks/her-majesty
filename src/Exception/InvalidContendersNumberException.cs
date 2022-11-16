@@ -9,7 +9,7 @@ public class InvalidContendersNumberException : HerMajestyAppException
     {
     }
     
-    public InvalidContendersNumberException(int read, int required, string path = Constants.ContenderPath) 
+    public InvalidContendersNumberException(int read, int required, string path) 
         : base($"File {path} does not contain enough contenders. Required = {required}, got = {read}.")
     {
     }

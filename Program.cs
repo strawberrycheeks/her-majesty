@@ -5,10 +5,11 @@ using Microsoft.Extensions.Logging;
 
 using HerMajesty.Strategy;
 using HerMajesty.Model;
+using HerMajesty.Util;
 
 namespace HerMajesty;
 
-class Program
+public class Program
 {
     public static void Main(string[] args)
     {
@@ -26,30 +27,42 @@ class Program
 
     private static IHostBuilder CreateHostBuilder(string[] args)
     {
-        return Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((hostContext, configuration) =>
-            {
-                configuration
-                    .AddJsonFile("appsettings.json")
-                    .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true)
-                    .Build();
-            })
-            .ConfigureServices((hostContext, services) =>
-            {
-                services
-                    .AddHostedService<Castle>()
-                    .AddScoped<Princess>()
-                    .AddScoped<IHall, Hall>()
-                    .AddScoped<IFriend, Friend>()
-                    .AddScoped<IStrategy, OptimalStrategy>();
-
-                if (hostContext.HostingEnvironment.EnvironmentName.Equals("Development"))
-                {
-                    AddLogging(services);
-                }
-            });
+        var builder = Host.CreateDefaultBuilder(args);
+        ConfigureAppConfiguration(builder);
+        ConfigureServices(builder);
+        return builder;
     }
 
+    private static void ConfigureAppConfiguration(IHostBuilder builder)
+    {
+        builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
+        {
+            IConfiguration configuration = configurationBuilder
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true)
+                .Build();
+            AppSettings.LoadConfigurationSettings(configuration);
+        });
+    }
+    
+    private static void ConfigureServices(IHostBuilder builder)
+    {
+        builder.ConfigureServices((hostContext, services) =>
+        {
+            services
+                .AddHostedService<Castle>()
+                .AddScoped<Princess>()
+                .AddScoped<IHall, Hall>()
+                .AddScoped<IFriend, Friend>()
+                .AddScoped<IStrategy, OptimalStrategy>();
+
+            if (hostContext.HostingEnvironment.EnvironmentName.Equals("Production"))
+            {
+                AddLogging(services);
+            }
+        });
+    }
+    
     private static void AddLogging(IServiceCollection services)
     {
         services.AddLogging(builder =>

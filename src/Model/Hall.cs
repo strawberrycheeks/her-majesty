@@ -17,7 +17,7 @@ public class Hall : IHall
 
     public Hall()
     {
-        _contenderList = new List<Contender>(Constants.ContenderCount);
+        _contenderList = new List<Contender>(AppSettings.ContenderCount);
         _enumerator = new List<Contender>.Enumerator();
     }
 
@@ -26,7 +26,7 @@ public class Hall : IHall
     /// </summary>
     public void FillContendersList()
     {
-        FileUtils.ReadContenderListFromFile(_contenderList);
+        FileUtils.ReadContenderListFromFile(_contenderList, AppSettings.ContenderPath);
         _contenderList.Shuffle();
         _enumerator = _contenderList.GetEnumerator();
     }
