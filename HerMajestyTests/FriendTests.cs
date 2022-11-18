@@ -1,3 +1,5 @@
+using FluentAssertions;
+
 using HerMajesty.Exception;
 using HerMajesty.Model;
 
@@ -9,38 +11,37 @@ public class FriendTests
     [Test]
     public void IsBetterThanVisited_ContenderIsBestAndVisited_ReturnsTrue()
     {
-        var friend = CreateDefaultFriend();
         var bestContender = CreateBestContender();
         var averageContender = CreateAverageContender();
+        var friend = CreateDefaultFriend();
         
         friend.AddVisitedContender(averageContender);
         friend.AddVisitedContender(bestContender);
         
-        Assert.That(friend.IsBetterThanVisited(bestContender), Is.True);
+        friend.IsBetterThanVisited(bestContender).Should().BeTrue();
     }
 
     [Test]
     public void IsBetterThanVisited_ContenderIsNotBestAndVisited_ReturnsFalse()
     {
-        var friend = CreateDefaultFriend();
         var bestContender = CreateBestContender();
         var averageContender = CreateAverageContender();
+        var friend = CreateDefaultFriend();
         
         friend.AddVisitedContender(bestContender);
         friend.AddVisitedContender(averageContender);
         
-        Assert.That(friend.IsBetterThanVisited(averageContender), Is.False);
+        friend.IsBetterThanVisited(averageContender).Should().BeFalse();
     }
     
     [Test]
     public void IsBetterThanVisited_ContenderIsNotVisited_ThrowsUnvisitedContenderComparedException()
     {
-        var friend = CreateDefaultFriend();
         var bestContender = CreateBestContender();
-        
-        Assert.Throws<UnvisitedContenderComparedException>(
-            delegate { friend.IsBetterThanVisited(bestContender); } 
-            );
+        var friend = CreateDefaultFriend();
+
+        var act = () => friend.IsBetterThanVisited(bestContender);
+        act.Should().Throw<UnvisitedContenderComparedException>();
     }
 
     private static IFriend CreateDefaultFriend()
