@@ -1,4 +1,4 @@
-﻿namespace HerMajesty;
+﻿namespace HerMajesty.Model;
 
 public class Contender
 {

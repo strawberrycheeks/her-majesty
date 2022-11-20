@@ -6,3 +6,4 @@ obj/
 *.csproj
 
 res/result.txt
+logs/*.log

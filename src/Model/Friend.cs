@@ -1,20 +1,22 @@
-﻿namespace HerMajesty;
+﻿using HerMajesty.Exception;
 
-public class LadyInWaiting
+namespace HerMajesty.Model;
+
+public class Friend : IFriend
 {
     /// <summary>
     /// Stores all visited contenders
     /// </summary>
-    public List<Contender> VisitedContenderList { get; }
+    private readonly List<Contender> _visitedContenderList;
     
     /// <summary>
     /// Stores the highest contender's score among all visited contenders
     /// </summary>
     private int _bestVisitedScore;
 
-    public LadyInWaiting()
+    public Friend()
     {
-        VisitedContenderList = new List<Contender>();
+        _visitedContenderList = new List<Contender>();
         _bestVisitedScore = 0;
     }
 
@@ -25,10 +27,27 @@ public class LadyInWaiting
     /// <param name="contender"> A new contender to be added to the list </param>
     public void AddVisitedContender(Contender contender)
     {
-        VisitedContenderList.Add(contender);
+        _visitedContenderList.Add(contender);
         UpdateBestScore(contender);
     }
 
+    /// <summary>
+    /// Compares the score of the contender with the highest visited contender's score
+    /// </summary>
+    /// <param name="contender"> A contender whose score needs to be compared, must be already marked as visited </param>
+    /// <returns>
+    /// Returns true, if current contender's score is greater than best
+    /// visited contenders' score; returns false otherwise
+    /// </returns>
+    public bool IsBetterThanVisited(Contender contender)
+    {
+        if (!IsVisited(contender))
+        {
+            throw new UnvisitedContenderComparedException(contender.Name);
+        }
+        return contender.Score >= _bestVisitedScore;
+    }
+    
     /// <summary>
     /// Saves the highest contender's score among all contenders who visited the Princess 
     /// </summary>
@@ -42,26 +61,13 @@ public class LadyInWaiting
     }
 
     /// <summary>
-    /// Compares the score of the contender with the highest visited contender's score
-    /// </summary>
-    /// <param name="contender"> A contender whose score needs to be compared, must be already marked as visited </param>
-    /// <returns>
-    /// Returns true, if current contender's score is greater than best
-    /// visited contenders' score; returns false otherwise
-    /// </returns>
-    public bool IsBetterThanVisited(Contender contender)
-    {
-        return IsVisited(contender) && contender.Score >= _bestVisitedScore;
-    }
-
-    /// <summary>
     /// Checks if contender has already visited the Princess
     /// </summary>
     /// <returns>
     /// Returns true, if contender is visited; otherwise returns false 
     /// </returns>
-    public bool IsVisited(Contender contender)
+    private bool IsVisited(Contender contender)
     {
-        return VisitedContenderList.Exists(c => c.Score == contender.Score);
+        return _visitedContenderList.Exists(c => c.Score == contender.Score);
     }
 }
