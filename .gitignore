@@ -5,5 +5,5 @@ obj/
 *.sln
 *.csproj
 
-res/result.txt
-logs/*.log
+*/res/result.txt
+*/logs/*.log
