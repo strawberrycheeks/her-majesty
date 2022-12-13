@@ -7,7 +7,7 @@ public class Hall : IHall
     /// <summary>
     /// TODO:
     /// </summary>
-    private readonly IContenderGenerator _contenderGenerator;
+    private readonly IContenderListGenerator _contenderListGenerator;
     
     /// <summary>
     /// List of contenders waiting for audience with Princess in the hall,
@@ -20,9 +20,9 @@ public class Hall : IHall
     /// </summary>
     private List<Contender>.Enumerator _enumerator;
 
-    public Hall(IContenderGenerator contenderGenerator)
+    public Hall(IContenderListGenerator contenderListGenerator)
     {
-        _contenderGenerator = contenderGenerator;
+        _contenderListGenerator = contenderListGenerator;
         _contenderList = new List<Contender>();
     }
 
@@ -31,7 +31,7 @@ public class Hall : IHall
     /// </summary>
     public void FillContendersList()
     {
-        _contenderList = _contenderGenerator.GenerateContenderList();
+        _contenderList = _contenderListGenerator.GenerateContenderList();
         _enumerator = _contenderList.GetEnumerator();
     }
 

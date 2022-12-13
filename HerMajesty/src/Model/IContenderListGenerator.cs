@@ -1,6 +1,6 @@
 namespace HerMajesty.Model;
 
-public interface IContenderGenerator
+public interface IContenderListGenerator
 {
     /// <summary>
     /// Returns the filled and shuffled list of contenders

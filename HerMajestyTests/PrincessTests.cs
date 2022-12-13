@@ -19,44 +19,46 @@ public class PrincessTests
      */
     
     // private const int ContendersCount = 100;
+    
+    private IHall _hall;
+    private Princess _princess;
+    private IContenderListGenerator _generator;
+
+    [SetUp]
+    public void Setup()
+    {
+        _generator = Substitute.For<IContenderListGenerator>();
+        _hall = new Hall(_generator);
+        
+        IStrategy strategy = new OptimalStrategy(new Friend(), _hall, Substitute.For<ILogger<OptimalStrategy>>());
+        _princess = new Princess(strategy);
+    }
 
     [Test]
     public void ChoosePrince_ScoreOfChosenContenderGreaterThan50_ReturnsContender()
     {
-        var contenders = MockContenderListGenerator.GenerateMaximalHappinessList();
-        var princess = SetupPrincessForTest(contenders);
-        
-        var chosen = princess.ChoosePrince();
+        _generator.GenerateContenderList().Returns(MockContenderListGenerator.GenerateMaximalHappinessList());
+        _hall.FillContendersList();
+        var chosen = _princess.ChoosePrince();
         chosen.Should().NotBeNull();
-        chosen.Score.Should().Be(100);
+        chosen?.Score.Should().Be(100);
     }
     
     [Test]
     public void ChoosePrince_ScoreOfChosenContenderLessThan50_ReturnsContender()
     {
-        var contenders = MockContenderListGenerator.GenerateAscendingList();
-        var princess = SetupPrincessForTest(contenders);
-
-        var chosen = princess.ChoosePrince();
+        _generator.GenerateContenderList().Returns(MockContenderListGenerator.GenerateAscendingList());
+        _hall.FillContendersList();
+        var chosen = _princess.ChoosePrince();
         chosen.Should().NotBeNull();
-        chosen.Score.Should().Be(37);
+        chosen?.Score.Should().Be(37);
     }
     
     [Test]
     public void ChoosePrince_NoContenderChosen_ReturnsNull()
     {
-        var contenders = MockContenderListGenerator.GenerateDescendingList();
-        var princess = SetupPrincessForTest(contenders);
-        princess.ChoosePrince().Should().BeNull();
-    }
-    
-    private static Princess SetupPrincessForTest(List<Contender> contenders)
-    {
-        IFriend friend = new Friend();
-        IHall hall = new Hall(contenders);
-        var logger = Substitute.For<ILogger<OptimalStrategy>>();
-
-        IStrategy strategy = new OptimalStrategy(friend, hall, logger);
-        return new Princess(strategy);
+        _generator.GenerateContenderList().Returns(MockContenderListGenerator.GenerateDescendingList());
+        _hall.FillContendersList();
+        _princess.ChoosePrince().Should().BeNull();
     }
 }

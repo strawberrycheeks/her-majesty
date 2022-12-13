@@ -3,13 +3,11 @@ using HerMajesty.Util;
 
 namespace HerMajesty.Model;
 
-public class ContenderGenerator : IContenderGenerator
+public class ContenderListGenerator : IContenderListGenerator
 {
     public List<Contender> GenerateContenderList()
     {
         var contenderList = new List<Contender>();
-        
-        // TODO: Изменить на .FillFromFile().Shuffle()
         ReadContenderListFromFile(contenderList, AppSettings.ContenderPath);
         contenderList.Shuffle();
         return contenderList;

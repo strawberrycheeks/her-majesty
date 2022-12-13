@@ -55,7 +55,7 @@ public class Program
                 .AddScoped<IHall, Hall>()
                 .AddScoped<IFriend, Friend>()
                 .AddScoped<IStrategy, OptimalStrategy>()
-                .AddScoped<IContenderGenerator, ContenderGenerator>();
+                .AddScoped<IContenderListGenerator, ContenderListGenerator>();
 
             if (hostContext.HostingEnvironment.EnvironmentName.Equals("Production"))
             {
