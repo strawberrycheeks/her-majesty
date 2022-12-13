@@ -27,7 +27,7 @@ public static class FileUtils
                     AppSettings.ContenderCount, 
                     path);
             }
-            contenderList.Add(new Contender(line, i));
+            contenderList.Add(new Contender(i, line));
         }
     }
 }

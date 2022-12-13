@@ -20,6 +20,12 @@ public class Hall : IHall
         _contenderList = new List<Contender>(AppSettings.ContenderCount);
         _enumerator = new List<Contender>.Enumerator();
     }
+    
+    public Hall(List<Contender> contenderList)
+    {
+        _contenderList = contenderList;
+        _enumerator = contenderList.GetEnumerator();
+    }
 
     /// <summary>
     /// Returns the filled and shuffled list of contenders

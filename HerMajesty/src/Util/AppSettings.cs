@@ -4,13 +4,16 @@ namespace HerMajesty.Util;
 
 public static class AppSettings
 {
+    public const int DefaultContenderCount = 100;
+    
     /// <summary>
     /// Total number of contenders 
     /// </summary>
-    public static int ContenderCount { get; private set; } = 100;
+    public static int ContenderCount { get; private set; } = DefaultContenderCount;
 
     /// <summary>
-    /// Path to the file with names for contenders, must contain 100 unique names
+    /// Path to the file with names for contenders, must contain {ContenderCount}
+    /// unique names
     /// </summary>
     public static string ContenderPath { get; private set; } = "../../../res/100-unique-names.txt";
 

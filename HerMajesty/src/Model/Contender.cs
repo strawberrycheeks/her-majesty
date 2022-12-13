@@ -12,9 +12,9 @@ public class Contender
     /// </summary>
     public int Score { get; }
 
-    public Contender(string name, int score)
+    public Contender(int score, string name)
     {
-        Name = name;
         Score = score;
+        Name = name;
     }
 }

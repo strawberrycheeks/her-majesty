@@ -3,7 +3,7 @@ using HerMajesty.Util;
 
 namespace HerMajestyTests.Mock;
 
-public class MockContenderListGenerator
+public static class MockContenderListGenerator
 {
     public static List<Contender> GenerateAscendingList(int contCount = AppSettings.DefaultContenderCount)
     {

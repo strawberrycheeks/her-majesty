@@ -53,13 +53,13 @@ public class FriendTests
     {
         const string bestName = "Best";
         const int bestScore = 100;
-        return new Contender(bestName, bestScore);
+        return new Contender(bestScore, bestName);
     }
 
     private static Contender CreateAverageContender()
     {
         const string averageName = "Average";
         const int averageScore = 10;
-        return new Contender(averageName, averageScore);
+        return new Contender(averageScore, averageName);
     }
 }

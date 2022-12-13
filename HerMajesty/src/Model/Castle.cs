@@ -52,7 +52,7 @@ public class Castle : IHostedService
     /// Prints the list of reviewed contenders and the algorithm's result
     /// </summary>
     /// <param name="chosenPrince"> The prince who was chosen </param>
-    private void PrintResult(Contender? chosenPrince)
+    private static void PrintResult(Contender? chosenPrince)
     {
         using var writer = new StreamWriter(AppSettings.ResultPath, false);
 
