@@ -5,26 +5,25 @@ namespace HerMajesty.Model;
 public class Hall : IHall
 {
     /// <summary>
+    /// TODO:
+    /// </summary>
+    private readonly IContenderGenerator _contenderGenerator;
+    
+    /// <summary>
     /// List of contenders waiting for audience with Princess in the hall,
     /// must contain a list of 100 unique contenders
     /// </summary>
-    private readonly List<Contender> _contenderList;
+    private List<Contender> _contenderList;
 
     /// <summary>
     /// Enumerator for the list of contenders
     /// </summary>
     private List<Contender>.Enumerator _enumerator;
 
-    public Hall()
+    public Hall(IContenderGenerator contenderGenerator)
     {
-        _contenderList = new List<Contender>(AppSettings.ContenderCount);
-        _enumerator = new List<Contender>.Enumerator();
-    }
-    
-    public Hall(List<Contender> contenderList)
-    {
-        _contenderList = contenderList;
-        _enumerator = contenderList.GetEnumerator();
+        _contenderGenerator = contenderGenerator;
+        _contenderList = new List<Contender>();
     }
 
     /// <summary>
@@ -32,8 +31,7 @@ public class Hall : IHall
     /// </summary>
     public void FillContendersList()
     {
-        FileUtils.ReadContenderListFromFile(_contenderList, AppSettings.ContenderPath);
-        _contenderList.Shuffle();
+        _contenderList = _contenderGenerator.GenerateContenderList();
         _enumerator = _contenderList.GetEnumerator();
     }
 

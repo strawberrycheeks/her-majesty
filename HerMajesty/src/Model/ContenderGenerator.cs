@@ -1,10 +1,20 @@
-﻿using HerMajesty.Exception;
-using HerMajesty.Model;
+using HerMajesty.Exception;
+using HerMajesty.Util;
 
-namespace HerMajesty.Util;
+namespace HerMajesty.Model;
 
-public static class FileUtils
+public class ContenderGenerator : IContenderGenerator
 {
+    public List<Contender> GenerateContenderList()
+    {
+        var contenderList = new List<Contender>();
+        
+        // TODO: Изменить на .FillFromFile().Shuffle()
+        ReadContenderListFromFile(contenderList, AppSettings.ContenderPath);
+        contenderList.Shuffle();
+        return contenderList;
+    }
+    
     /// <summary>
     /// Fills a list of contenders with names read from a file and numbers from 1 to 100.
     /// The file must contain a list of 100 unique names. 
@@ -14,7 +24,7 @@ public static class FileUtils
     /// <exception cref="InvalidContendersNumberException">
     /// Thrown if the file does not contain the required number of names
     /// </exception>
-    public static void ReadContenderListFromFile(List<Contender> contenderList, string path)
+    private static void ReadContenderListFromFile(ICollection<Contender> contenderList, string path)
     {
         using var reader = new StreamReader(path);
         for (var i = 1; i <= AppSettings.ContenderCount; i++)

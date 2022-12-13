@@ -54,7 +54,8 @@ public class Program
                 .AddScoped<Princess>()
                 .AddScoped<IHall, Hall>()
                 .AddScoped<IFriend, Friend>()
-                .AddScoped<IStrategy, OptimalStrategy>();
+                .AddScoped<IStrategy, OptimalStrategy>()
+                .AddScoped<IContenderGenerator, ContenderGenerator>();
 
             if (hostContext.HostingEnvironment.EnvironmentName.Equals("Production"))
             {
