@@ -3,7 +3,7 @@ using HerMajesty.Util;
 
 namespace HerMajestyTests.Mock;
 
-public class MockContenderList
+public class MockContenderListGenerator
 {
     public static List<Contender> GenerateAscendingList(int contCount = AppSettings.DefaultContenderCount)
     {
@@ -26,10 +26,21 @@ public class MockContenderList
 
         return contenders;
     }
-
-    public static List<Contender> Generate(int contCount = AppSettings.DefaultContenderCount)
+    
+    /// <summary>
+    /// Generates a list of {contCount} contenders in descending order, but the
+    /// largest in the order will appear at the top of the list
+    /// </summary>
+    /// <returns> Returns generated list </returns>
+    public static List<Contender> GenerateMaximalHappinessList(int contCount = AppSettings.DefaultContenderCount)
     {
         var contenders = new List<Contender>();
+        for (var i = contCount - 1; i >= 1; --i)
+        {
+            contenders.Add(new Contender(i, i.ToString()));
+        }
+        contenders.Add(new Contender(contCount, contCount.ToString()));
+        
         return contenders;
     }
 }
