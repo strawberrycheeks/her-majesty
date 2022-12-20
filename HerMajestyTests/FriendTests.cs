@@ -41,7 +41,8 @@ public class FriendTests
         var friend = CreateDefaultFriend();
 
         var act = () => friend.IsBetterThanVisited(bestContender);
-        act.Should().Throw<UnvisitedContenderComparedException>();
+        act.Should().Throw<UnvisitedContenderComparedException>()
+            .WithMessage("Tried to compare the participant Best who has not visited the Princess yet.");
     }
 
     private static IFriend CreateDefaultFriend()
