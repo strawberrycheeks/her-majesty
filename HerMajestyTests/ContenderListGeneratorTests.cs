@@ -7,7 +7,7 @@ namespace HerMajestyTests;
 [TestFixture]
 public class ContenderListGeneratorTests
 {
-    private readonly string _filepath = "../../../../HerMajesty/res/100-unique-names.txt";
+    private const string Filepath = "../../../../HerMajesty/res/100-unique-names.txt";
     private IContenderListGenerator _generator;
     
     [SetUp]
@@ -19,7 +19,7 @@ public class ContenderListGeneratorTests
     [Test]
     public void GenerateContenderList_ReturnsListOf100UniqueContenders()
     {
-        var generatedList = _generator.GenerateContenderList(_filepath);
+        var generatedList = _generator.GenerateContenderList(Filepath);
         generatedList.Count.Should().Be(100);
         generatedList.Should().OnlyHaveUniqueItems();
     }
