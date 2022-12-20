@@ -9,7 +9,7 @@ namespace HerMajestyTests;
 public class FriendTests
 {
     [Test]
-    public void AddVisitedContender_ContenderIsAdded_ReturnsTrue()
+    public void AddVisitedContender_ReturnsTrue()
     {
         var bestContender = CreateBestContender();
         CreateDefaultFriend().AddVisitedContender(bestContender).Should().BeTrue();

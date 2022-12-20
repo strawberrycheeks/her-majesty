@@ -5,7 +5,7 @@ namespace HerMajesty.Model;
 public class Hall : IHall
 {
     /// <summary>
-    /// TODO:
+    /// Generates a shuffled list of contenders
     /// </summary>
     private readonly IContenderListGenerator _contenderListGenerator;
     
@@ -24,6 +24,7 @@ public class Hall : IHall
     {
         _contenderListGenerator = contenderListGenerator;
         _contenderList = new List<Contender>();
+        _enumerator = _contenderList.GetEnumerator();
     }
 
     /// <summary>
