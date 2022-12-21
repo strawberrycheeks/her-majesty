@@ -1,13 +1,14 @@
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 
 using HerMajesty.Model;
+using HerMajesty.Util;
 
 namespace HerMajestyTests;
 
 [TestFixture]
 public class ContenderListGeneratorTests
 {
-    private const string Filepath = "../../../../HerMajesty/res/100-unique-names.txt";
     private IContenderListGenerator _generator;
     
     [SetUp]
@@ -19,7 +20,12 @@ public class ContenderListGeneratorTests
     [Test]
     public void GenerateContenderList_ReturnsListOf100UniqueContenders()
     {
-        var generatedList = _generator.GenerateContenderList(Filepath);
+        AppSettings.LoadConfigurationSettings(
+            new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build());
+        
+        var generatedList = _generator.GenerateContenderList();
         generatedList.Count.Should().Be(100);
         generatedList.Should().OnlyHaveUniqueItems();
     }

@@ -12,15 +12,7 @@ public class ContenderListGenerator : IContenderListGenerator
         contenderList.Shuffle();
         return contenderList;
     }
-    
-    public List<Contender> GenerateContenderList(string filepath)
-    {
-        var contenderList = new List<Contender>();
-        ReadContenderListFromFile(contenderList, filepath);
-        contenderList.Shuffle();
-        return contenderList;
-    }
-    
+
     /// <summary>
     /// Fills a list of contenders with names read from a file and numbers from 1 to 100.
     /// The file must contain a list of 100 unique names. 
