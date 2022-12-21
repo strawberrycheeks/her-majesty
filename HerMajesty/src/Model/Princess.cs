@@ -29,6 +29,7 @@ public class Princess
     /// <summary>
     /// Selects the best contender according to selected strategy
     /// </summary>
+    /// <returns> Returns a chosen contender. If no contender was chosen, returns null </returns>
     public Contender? ChoosePrince()
     {
         return _strategy.ChooseBestContender();

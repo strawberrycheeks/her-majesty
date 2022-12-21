@@ -41,7 +41,7 @@ public class OptimalStrategy : IStrategy
             _logger.LogDebug($"{visited} cont. visited. Current is {contender.Name}: ({contender.Score})");
 
             // Important: current contender must be already visited!
-            if (visited >= cutoff
+            if (visited > cutoff
                 && _friend.IsBetterThanVisited(contender)) 
             {
                 return contender;

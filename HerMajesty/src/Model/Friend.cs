@@ -25,10 +25,13 @@ public class Friend : IFriend
     /// taking into account the score of the added contender
     /// </summary>
     /// <param name="contender"> A new contender to be added to the list </param>
-    public void AddVisitedContender(Contender contender)
+    public bool AddVisitedContender(Contender contender)
     {
+        if (contender == null) return false; 
+        
         _visitedContenderList.Add(contender);
         UpdateBestScore(contender);
+        return true;
     }
 
     /// <summary>

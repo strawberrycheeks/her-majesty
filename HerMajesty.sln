@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerMajestyTests", "HerMajestyTests\HerMajestyTests.csproj", "{0029FDC5-2365-4459-8C15-B9DA2328B638}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerMajesty", "HerMajesty\HerMajesty.csproj", "{2B283A99-515A-4FF0-8619-5277BB7F5CAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0029FDC5-2365-4459-8C15-B9DA2328B638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0029FDC5-2365-4459-8C15-B9DA2328B638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0029FDC5-2365-4459-8C15-B9DA2328B638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0029FDC5-2365-4459-8C15-B9DA2328B638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B283A99-515A-4FF0-8619-5277BB7F5CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B283A99-515A-4FF0-8619-5277BB7F5CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B283A99-515A-4FF0-8619-5277BB7F5CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B283A99-515A-4FF0-8619-5277BB7F5CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
