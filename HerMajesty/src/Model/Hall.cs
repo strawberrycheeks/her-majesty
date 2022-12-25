@@ -1,6 +1,4 @@
-﻿using HerMajesty.Util;
-
-namespace HerMajesty.Model;
+﻿namespace HerMajesty.Model;
 
 public class Hall : IHall
 {
