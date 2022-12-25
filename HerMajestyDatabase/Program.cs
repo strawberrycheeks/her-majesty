@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using HerMajesty.Context;
+using Microsoft.Extensions.Configuration;
 
 using HerMajestyDatabase;
-using HerMajestyDatabase.DbModel;
 using HerMajestyDatabase.Util;
+using Microsoft.EntityFrameworkCore;
 
 IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -10,10 +11,9 @@ IConfiguration configuration = new ConfigurationBuilder()
 
 AppSettings.LoadConfigurationSettings(configuration);
 
-Console.WriteLine(AppSettings.DbConnection);
-Console.WriteLine(AppSettings.AttemptCount);
+var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>();
 
-// using (ApplicationContext db = new ApplicationContext())
+// using (var db = new ApplicationContext())
 {
     // ContenderEntity user1 = new ContenderEntity { Name = "Tom", Score = 33 };
     // ContenderEntity user2 = new ContenderEntity { Name = "Alice", Score = 26 };
@@ -22,7 +22,7 @@ Console.WriteLine(AppSettings.AttemptCount);
     // db.SaveChanges();
 }
 
-// using (ApplicationContext db = new ApplicationContext())
+// using (PostgresDbContext db = new PostgresDbContext())
 {
     // var users = db.Users.ToList();
     // Console.WriteLine("Users list:");
