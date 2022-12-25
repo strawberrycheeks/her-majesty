@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerMajestyTests", "HerMajes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerMajesty", "HerMajesty\HerMajesty.csproj", "{2B283A99-515A-4FF0-8619-5277BB7F5CAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerMajestyDatabase", "HerMajestyDatabase\HerMajestyDatabase.csproj", "{04DD8898-F4F3-4F22-901A-E153B0AA77F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{2B283A99-515A-4FF0-8619-5277BB7F5CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B283A99-515A-4FF0-8619-5277BB7F5CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B283A99-515A-4FF0-8619-5277BB7F5CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04DD8898-F4F3-4F22-901A-E153B0AA77F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DD8898-F4F3-4F22-901A-E153B0AA77F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DD8898-F4F3-4F22-901A-E153B0AA77F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DD8898-F4F3-4F22-901A-E153B0AA77F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
