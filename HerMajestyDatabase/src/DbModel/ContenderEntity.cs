@@ -1,5 +1,8 @@
 namespace HerMajestyDatabase.DbModel;
 
+/// <summary>
+/// A contender entity
+/// </summary>
 public class ContenderEntity
 {
     public int Id { get; set; }

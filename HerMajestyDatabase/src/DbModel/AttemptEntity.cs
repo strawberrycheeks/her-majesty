@@ -1,5 +1,8 @@
 namespace HerMajestyDatabase.DbModel;
 
+/// <summary>
+/// An attempt entity 
+/// </summary>
 public class AttemptEntity
 {
     public int Id { get; set; }

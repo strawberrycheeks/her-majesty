@@ -1,20 +1,33 @@
-﻿using HerMajestyDatabase;
+﻿using Microsoft.Extensions.Configuration;
 
-using (ApplicationContext db = new ApplicationContext())
+using HerMajestyDatabase;
+using HerMajestyDatabase.DbModel;
+using HerMajestyDatabase.Util;
+
+IConfiguration configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+
+AppSettings.LoadConfigurationSettings(configuration);
+
+Console.WriteLine(AppSettings.DbConnection);
+Console.WriteLine(AppSettings.AttemptCount);
+
+// using (ApplicationContext db = new ApplicationContext())
 {
-    User user1 = new User { Name = "Tom", Age = 33 };
-    User user2 = new User { Name = "Alice", Age = 26 };
-    
-    db.Users.AddRange(user1, user2);
-    db.SaveChanges();
+    // ContenderEntity user1 = new ContenderEntity { Name = "Tom", Score = 33 };
+    // ContenderEntity user2 = new ContenderEntity { Name = "Alice", Score = 26 };
+    //
+    // db.Users.AddRange(user1, user2);
+    // db.SaveChanges();
 }
 
-using (ApplicationContext db = new ApplicationContext())
+// using (ApplicationContext db = new ApplicationContext())
 {
-    var users = db.Users.ToList();
-    Console.WriteLine("Users list:");
-    foreach (User u in users)
-    {
-        Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
-    }
+    // var users = db.Users.ToList();
+    // Console.WriteLine("Users list:");
+    // foreach (ContenderEntity u in users)
+    // {
+    //     Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+    // }
 }
