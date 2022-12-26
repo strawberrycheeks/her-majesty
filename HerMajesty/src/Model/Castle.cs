@@ -42,7 +42,7 @@ public class Castle : IHostedService
             {
                 await RunAllAttempts();
             } else {
-                await RunAttempt(AppSettings.AttemptNumber.Value);
+                RunAttempt(AppSettings.AttemptNumber.Value);
             }
         }
         catch (System.Exception ex)
@@ -57,55 +57,63 @@ public class Castle : IHostedService
 
     private async Task RunAllAttempts()
     {
-        // _hall.FillContendersList();
-        // var chosenPrince = _princess.ChoosePrince();
-        // PrintResult(chosenPrince);
-        
         var attempts = await _dbc.Attempts
             .Include(c => c.Contenders)
             .ToListAsync();
 
+        var sum = 0.0;
         foreach (var at in attempts)
         {
             _hall.FillContendersList(int.Parse(at.AttemptNumber));
             var chosenPrince = _princess.ChoosePrince();
-            PrintResult(chosenPrince);
+            sum += Princess.CalculateHappinessPoints(chosenPrince?.Score);
+            
+            //
+            PrintAttemptResult(int.Parse(at.AttemptNumber), chosenPrince);
+            //
         }
-
-        // var sum = attempts.Sum(at => _princess.ChoosePrince(at.AttemptNumber));
+        PrintAverageResult(attempts.Count, sum);
     }
 
-    private async Task RunAttempt(int attemptNumber)
+    private void RunAttempt(int attemptNumber)
     {
-        
+        _hall.FillContendersList(attemptNumber);
+        var chosenPrince = _princess.ChoosePrince();
+        PrintAttemptResult(attemptNumber, chosenPrince);
     }
 
     /// <summary>
-    /// Prints the list of reviewed contenders and the algorithm's result
+    /// Prints the average algorithm's result for all attempts from database
     /// </summary>
-    /// <param name="chosenPrince"> The prince who was chosen </param>
-    private static void PrintResult(Contender? chosenPrince)
+    /// <param name="attemptsCount"> Total number of attempts </param>
+    /// <param name="sum"> The amount of happiness points scored for all attempts </param>
+    private static void PrintAverageResult(int attemptsCount, double sum)
     {
         using var writer = new StreamWriter(AppSettings.ResultPath, false);
-        // using var writer = new StreamWriter(Console.OpenStandardOutput());
-        
-        var chosenPrinceScore = chosenPrince?.Score;
-        if (chosenPrince != null)
-        {
-            writer.WriteLine($"{chosenPrince.Name} ({chosenPrince.Score})");
-        }
+        writer.WriteLine($"Average happiness for {attemptsCount} attempts: {sum / attemptsCount}");
+    }
 
-        var princessPoints = Princess.CalculateHappinessPoints(chosenPrinceScore);
+    /// <summary>
+    /// Prints the algorithm's result for an attempt
+    /// </summary>
+    /// <param name="chosenPrince"> The prince who was chosen </param>
+    private static void PrintAttemptResult(int attemptNumber, Contender? chosenPrince)
+    {
+        // using var writer = new StreamWriter(AppSettings.ResultPath, false);
+        using var writer = new StreamWriter(Console.OpenStandardOutput());
+        writer.WriteLine($"Attempt N {attemptNumber}:");
+        
+        var princessPoints = Princess.CalculateHappinessPoints(chosenPrince?.Score);
         switch (princessPoints)
         {
             case Princess.BadPrinceChosenScore:
-                writer.WriteLine($"Oh, bad choice! Happiness points: {princessPoints}");
+                writer.WriteLine($"\tOh, bad choice! Happiness points: {princessPoints}");
                 break;
             case Princess.NoPrinceChosenScore:
-                writer.WriteLine($"Did not choose a prince! Happiness points: {princessPoints}");
+                writer.WriteLine($"\tDid not choose a prince! Happiness points: {princessPoints}");
                 break;
             default:
-                writer.WriteLine($"...and they lived happily ever after! Happiness points: {princessPoints}");
+                writer.WriteLine($"\t...and they lived happily ever after! Happiness points: {princessPoints}");
                 break;
         }
     }
