@@ -11,11 +11,11 @@ public static class AttemptGenerator
     /// </summary>
     /// <param name="dbc"> Context for database where attempts is saved </param>
     /// <param name="attemptCount"> Number of generated attempts </param>
-    public static async void Generate(PostgresDbContext dbc, int attemptCount)
+    public static async Task GenerateAsync(PostgresDbContext dbc, int attemptCount)
     {
         IContenderListGenerator contenderListGenerator = new ContenderListGenerator();
         
-        for (var i = 0; i < attemptCount; i++)
+        for (var i = 1; i <= attemptCount; i++)
         {
             var contenders = contenderListGenerator.GenerateContenderList();
             dbc.Attempts.Add(new AttemptEntity
@@ -23,8 +23,8 @@ public static class AttemptGenerator
                 AttemptNumber = i.ToString(),
                 Contenders = MapToDbEntities(contenders)
             });
-            await dbc.SaveChangesAsync();
         }
+        await dbc.SaveChangesAsync();
     }
     
     /// <summary>

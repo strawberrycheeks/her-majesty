@@ -8,7 +8,7 @@ namespace HerMajestyDatabase;
 
 public static class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         try
         {
@@ -19,11 +19,9 @@ public static class Program
             AppSettings.LoadConfigurationSettings(configuration);
 
             var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>().UseNpgsql(AppSettings.DbConnection);
-            
-            using (var dbc = new PostgresDbContext(optionsBuilder.Options))
-            {
-                AttemptGenerator.Generate(dbc, AppSettings.AttemptCount);
-            }
+
+            await using var dbc = new PostgresDbContext(optionsBuilder.Options);
+            await AttemptGenerator.GenerateAsync(dbc, AppSettings.AttemptCount);
         } catch (Exception ex)
         {
             Console.WriteLine($"{ex.GetType()}: {ex.Message}");
