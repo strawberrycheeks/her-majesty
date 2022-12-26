@@ -71,8 +71,7 @@ public class Castle : IHostedService
             var chosenPrince = _princess.ChoosePrince();
             PrintResult(chosenPrince);
         }
-        
-        
+
         // var sum = attempts.Sum(at => _princess.ChoosePrince(at.AttemptNumber));
     }
 

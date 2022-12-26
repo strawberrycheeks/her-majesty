@@ -7,7 +7,7 @@ public class Friend : IFriend
     /// <summary>
     /// Stores all visited contenders
     /// </summary>
-    private readonly List<Contender> _visitedContenderList;
+    private List<Contender> _visitedContenderList;
     
     /// <summary>
     /// Stores the highest contender's score among all visited contenders
@@ -20,6 +20,12 @@ public class Friend : IFriend
         _bestVisitedScore = 0;
     }
 
+    public void ResetVisitedContenderList()
+    {
+        _visitedContenderList = new List<Contender>();
+        _bestVisitedScore = 0;
+    }
+
     /// <summary>
     /// Adds the contender to the list and updates the best contender's score
     /// taking into account the score of the added contender
@@ -27,7 +33,7 @@ public class Friend : IFriend
     /// <param name="contender"> A new contender to be added to the list </param>
     public bool AddVisitedContender(Contender contender)
     {
-        if (contender == null) return false; 
+        if (contender == null) return false;
         
         _visitedContenderList.Add(contender);
         UpdateBestScore(contender);

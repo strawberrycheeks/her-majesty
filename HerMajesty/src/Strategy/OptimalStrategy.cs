@@ -30,10 +30,12 @@ public class OptimalStrategy : IStrategy
     /// <returns> Returns the chosen contender. </returns>
     public Contender? ChooseBestContender()
     {
-        var visited = 0;
-        var cutoff = (int) Math.Round(AppSettings.ContenderCount / Math.E); 
-        // Note: for 100 cont. cutoff will be equal to 37
+        _friend.ResetVisitedContenderList();
         
+        // Note: for 100 cont. cutoff will be equal to 37
+        var cutoff = (int) Math.Round(AppSettings.ContenderCount / Math.E);
+        var visited = 0;
+
         while (_hall.GetNextContender() is { } contender)
         {
             visited += 1;
