@@ -24,7 +24,9 @@ public static class Program
         }
         catch (System.Exception ex)
         {
-            Console.WriteLine($"{ex.GetType()}: {ex.Message}");
+            Console.WriteLine(ex is FormatException or OverflowException
+                ? "Expected argument: <attempt-id> should be an integer"
+                : $"{ex.GetType()}: {ex.Message}");
         }
     }
 
@@ -90,13 +92,6 @@ public static class Program
         if (args.Count == 0) return;
         if (string.IsNullOrEmpty(args[0])) return;
 
-        try
-        {
-            AppSettings.AttemptNumber = int.Parse(args[0]);
-        }
-        catch (System.Exception)
-        {
-            Console.WriteLine("Expected argument: <attempt-id> should be an integer");
-        }
+        AppSettings.AttemptNumber = int.Parse(args[0]);
     }
 }

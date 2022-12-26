@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using HerMajesty.Context;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using HerMajesty.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace HerMajesty.Model;
 
@@ -13,12 +15,16 @@ public class Castle : IHostedService
     private readonly IHall _hall;
     private readonly Princess _princess;
 
+    private PostgresDbContext _dbc;
+
     public Castle(
         IHall hall, 
         Princess princess,
+        PostgresDbContext dbc,
         ILogger<Princess> logger, 
         IHostApplicationLifetime lifetime)
     {
+        _dbc = dbc;
         _hall = hall;
         _princess = princess;
         _logger = logger;
@@ -34,16 +40,10 @@ public class Castle : IHostedService
         {
             if (AppSettings.AttemptNumber == null)
             {
-                Console.WriteLine("AttemptNumber is null");
+                RunAllAttempts();
             } else {
-                Console.WriteLine(AppSettings.AttemptNumber);
-            } 
-            
-            // _hall.FillContendersList();
-        
-            // var chosenPrince = _princess.ChoosePrince();
-        
-            // PrintResult(chosenPrince);
+                RunAttempt(AppSettings.AttemptNumber.Value);
+            }
         }
         catch (System.Exception ex)
         {
@@ -53,6 +53,23 @@ public class Castle : IHostedService
         {
             _lifetime.StopApplication();
         }
+    }
+
+    private async Task RunAllAttempts()
+    {
+        // _hall.FillContendersList();
+        // var chosenPrince = _princess.ChoosePrince();
+        // PrintResult(chosenPrince);
+        
+        var attempts = await _dbc.Attempts
+            .Include(c => c.Contenders)
+            .ToListAsync();
+        // var sum = attempts.Sum(at => _princess.ChoosePrince(at.AttemptNumber));
+    }
+
+    private async void RunAttempt(int attemptNumber)
+    {
+        
     }
 
     /// <summary>
