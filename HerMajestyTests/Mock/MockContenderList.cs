@@ -1,11 +1,12 @@
+using HerMajesty.Entity;
 using HerMajesty.Model;
 using HerMajesty.Util;
 
 namespace HerMajestyTests.Mock;
 
-public static class MockContenderListGenerator
+public static class MockContenderList
 {
-    public static List<Contender> GenerateAscendingList(int contCount = AppSettings.DefaultContenderCount)
+    public static List<ContenderEntity> GetAscendingList(int contCount = AppSettings.DefaultContenderCount)
     {
         var contenders = new List<Contender>();
         for (var i = 1; i <= contCount; ++i)
@@ -13,10 +14,10 @@ public static class MockContenderListGenerator
             contenders.Add(new Contender(i, i.ToString()));
         }
 
-        return contenders;
+        return contenders.Map();
     }
     
-    public static List<Contender> GenerateDescendingList(int contCount = AppSettings.DefaultContenderCount)
+    public static List<ContenderEntity> GetDescendingList(int contCount = AppSettings.DefaultContenderCount)
     {
         var contenders = new List<Contender>();
         for (var i = contCount; i >= 1; --i)
@@ -24,7 +25,7 @@ public static class MockContenderListGenerator
             contenders.Add(new Contender(i, i.ToString()));
         }
 
-        return contenders;
+        return contenders.Map();
     }
     
     /// <summary>
@@ -32,7 +33,7 @@ public static class MockContenderListGenerator
     /// largest in the order will appear at the top of the list
     /// </summary>
     /// <returns> Returns generated list </returns>
-    public static List<Contender> GenerateMaximalHappinessList(int contCount = AppSettings.DefaultContenderCount)
+    public static List<ContenderEntity> GetMaximalHappinessList(int contCount = AppSettings.DefaultContenderCount)
     {
         var contenders = new List<Contender>();
         for (var i = contCount - 1; i >= 1; --i)
@@ -41,6 +42,17 @@ public static class MockContenderListGenerator
         }
         contenders.Add(new Contender(contCount, contCount.ToString()));
         
-        return contenders;
+        return contenders.Map();
+    }
+    
+    private static List<ContenderEntity> Map(this IEnumerable<Contender> contenders)
+    {
+        var order = 0;
+        return contenders.Select(c => new ContenderEntity()
+        {
+            Name = c.Name,
+            Score = c.Score,
+            Order = order++
+        }).ToList();
     }
 }

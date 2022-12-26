@@ -21,7 +21,7 @@ public static class AttemptGenerator
             dbc.Attempts.Add(new AttemptEntity
             {
                 AttemptNumber = i.ToString(),
-                Contenders = MapToDbEntities(contenders)
+                Contenders = Map(contenders)
             });
         }
         await dbc.SaveChangesAsync();
@@ -32,7 +32,7 @@ public static class AttemptGenerator
     /// </summary>
     /// <param name="contenders"> A collection to be mapped </param>
     /// <returns> Returns a mapped collection of database entities </returns>
-    private static List<ContenderEntity> MapToDbEntities(IEnumerable<Contender> contenders)
+    private static List<ContenderEntity> Map(IEnumerable<Contender> contenders)
     {
         var order = 0;
         return contenders.Select(c => new ContenderEntity()
