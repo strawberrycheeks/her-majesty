@@ -1,14 +1,13 @@
-﻿using System.Configuration;
-using HerMajesty.Context;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using HerMajesty.Strategy;
+using HerMajesty.Context;
 using HerMajesty.Model;
+using HerMajesty.Strategy;
 using HerMajesty.Util;
-using Microsoft.EntityFrameworkCore;
 
 namespace HerMajesty;
 
@@ -18,6 +17,7 @@ public static class Program
     {
         try
         {
+            ParseAttemptNumber(args);
             CreateHostBuilder(args)
                 .Build()
                 .Run();
@@ -83,5 +83,20 @@ public static class Program
                     });
             });
         });
+    }
+
+    private static void ParseAttemptNumber(IReadOnlyList<string> args)
+    {
+        if (args.Count == 0) return;
+        if (string.IsNullOrEmpty(args[0])) return;
+
+        try
+        {
+            AppSettings.AttemptNumber = int.Parse(args[0]);
+        }
+        catch (System.Exception)
+        {
+            Console.WriteLine("Expected argument: <attempt-id> should be an integer");
+        }
     }
 }

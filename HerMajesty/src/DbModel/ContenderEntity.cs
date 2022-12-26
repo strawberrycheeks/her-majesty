@@ -1,7 +1,7 @@
 namespace HerMajesty.DbModel;
 
 /// <summary>
-/// A contender entity
+/// An entity for contender to be stored in a database
 /// </summary>
 public class ContenderEntity
 {

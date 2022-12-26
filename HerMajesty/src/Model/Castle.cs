@@ -32,11 +32,18 @@ public class Castle : IHostedService
     {
         try
         {
-            _hall.FillContendersList();
+            if (AppSettings.AttemptNumber == null)
+            {
+                Console.WriteLine("AttemptNumber is null");
+            } else {
+                Console.WriteLine(AppSettings.AttemptNumber);
+            } 
+            
+            // _hall.FillContendersList();
         
-            var chosenPrince = _princess.ChoosePrince();
+            // var chosenPrince = _princess.ChoosePrince();
         
-            PrintResult(chosenPrince);
+            // PrintResult(chosenPrince);
         }
         catch (System.Exception ex)
         {

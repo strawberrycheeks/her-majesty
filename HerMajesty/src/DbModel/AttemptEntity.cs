@@ -1,7 +1,7 @@
 namespace HerMajesty.DbModel;
 
 /// <summary>
-/// An attempt entity 
+/// An entity for attempt to be stored in a database
 /// </summary>
 public class AttemptEntity
 {

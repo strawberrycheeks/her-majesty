@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 namespace HerMajesty.Context;
 
 /// <summary>
-/// Class for generating migrations.
+/// Class for generating migrations
 /// </summary>
 public class PostgresDbContextFactory : IDesignTimeDbContextFactory<PostgresDbContext>
 {

@@ -6,6 +6,11 @@ public static class AppSettings
 {
     public const int DefaultAttemptCount = 100;
     public const int DefaultContenderCount = 100;
+
+    /// <summary>
+    /// A number of attempt from the database
+    /// </summary>
+    public static int? AttemptNumber { get; set; } = null;
     
     /// <summary>
     /// Total number of attempts
