@@ -9,22 +9,22 @@ public static class AttemptGenerator
     /// <summary>
     /// Generates <paramref name="attemptCount"/> of attempts and saves it in the database
     /// </summary>
-    /// <param name="dbc"> Context for database where attempts is saved </param>
+    /// <param name="context"> Context for database where attempts is saved </param>
     /// <param name="attemptCount"> Number of generated attempts </param>
-    public static async Task GenerateAsync(PostgresDbContext dbc, int attemptCount)
+    public static async Task GenerateAsync(PostgresDbContext context, int attemptCount)
     {
         IContenderListGenerator contenderListGenerator = new ContenderListGenerator();
         
         for (var i = 1; i <= attemptCount; i++)
         {
             var contenders = contenderListGenerator.GenerateContenderList();
-            dbc.Attempts.Add(new AttemptEntity
+            context.Attempts.Add(new AttemptEntity
             {
-                AttemptNumber = i.ToString(),
+                AttemptNumber = i,
                 Contenders = Map(contenders)
             });
         }
-        await dbc.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
     
     /// <summary>

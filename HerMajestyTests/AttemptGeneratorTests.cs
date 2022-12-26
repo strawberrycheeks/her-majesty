@@ -11,7 +11,7 @@ namespace HerMajestyTests;
 [TestFixture]
 public class AttemptGeneratorTests
 {
-    private PostgresDbContext _dbc;
+    private PostgresDbContext _context;
     
     [SetUp]
     public void SetUp()
@@ -24,14 +24,14 @@ public class AttemptGeneratorTests
         var options = new DbContextOptionsBuilder<PostgresDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        _dbc = new PostgresDbContext(options);
+        _context = new PostgresDbContext(options);
     }
 
     [Test]
     public async Task GenerateAttemptsInDB_Return100Attempts()
     {
-        await AttemptGenerator.GenerateAsync(_dbc, AppSettings.AttemptCount);
-        var attempts = _dbc.Attempts.ToList();
+        await AttemptGenerator.GenerateAsync(_context, AppSettings.AttemptCount);
+        var attempts = _context.Attempts.ToList();
         attempts.Count.Should().Be(AppSettings.AttemptCount);
     }
 }

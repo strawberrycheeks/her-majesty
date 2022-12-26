@@ -7,18 +7,18 @@ namespace HerMajesty.Repository;
 
 public class AttemptRepository : IAttemptRepository
 {
-    private readonly PostgresDbContext _dbc;
+    private readonly PostgresDbContext _context;
 
-    public AttemptRepository(PostgresDbContext dbc)
-        => _dbc = dbc;
+    public AttemptRepository(PostgresDbContext context)
+        => _context = context;
 
-    public async Task<AttemptEntity?> GetAttemptByNumberAsync(string attemptNumber)
-        => await _dbc.Attempts
+    public async Task<AttemptEntity?> GetAttemptByNumberAsync(int attemptNumber)
+        => await _context.Attempts
             .Include(c => c.Contenders)
             .FirstOrDefaultAsync(a => a.AttemptNumber == attemptNumber);
     
     public async Task<IEnumerable<AttemptEntity>?> GetAllAttemptsAsync()
-        => await _dbc.Attempts
+        => await _context.Attempts
             .Include(c => c.Contenders)
             .ToListAsync();
 }

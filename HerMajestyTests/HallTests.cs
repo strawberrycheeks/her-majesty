@@ -13,7 +13,7 @@ namespace HerMajestyTests;
 public class HallTests
 {
     private const int TestAttemptNumber = 1; 
-    private PostgresDbContext _dbc;
+    private PostgresDbContext _context;
     private IHall _hall;
     
     [SetUp]
@@ -22,16 +22,16 @@ public class HallTests
         var options = new DbContextOptionsBuilder<PostgresDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        _dbc = new PostgresDbContext(options);
+        _context = new PostgresDbContext(options);
         
-        _dbc.Attempts.Add(new AttemptEntity
+        _context.Attempts.Add(new AttemptEntity
             {
-                AttemptNumber = TestAttemptNumber.ToString(),
+                AttemptNumber = TestAttemptNumber,
                 Contenders = MockContenderList.GetAscendingList()
             });
-        _dbc.SaveChanges();
+        _context.SaveChanges();
 
-        IAttemptRepository repository = new AttemptRepository(_dbc);
+        IAttemptRepository repository = new AttemptRepository(_context);
         _hall = new Hall(repository);
     }
     

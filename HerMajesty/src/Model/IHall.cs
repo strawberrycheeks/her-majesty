@@ -5,7 +5,7 @@ public interface IHall
     /// <summary>
     /// Returns the filled and shuffled list of contenders
     /// </summary>
-    public void FillContendersList(int attemptNumber);
+    public Task FillContendersList(int attemptNumber);
 
     /// <summary>
     /// Gets the next contender from the list

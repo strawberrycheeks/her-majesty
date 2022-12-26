@@ -6,6 +6,6 @@ namespace HerMajesty.Entity;
 public class AttemptEntity
 {
     public int Id { get; set; }
-    public string AttemptNumber { get; set; }
+    public int AttemptNumber { get; set; }
     public List<ContenderEntity> Contenders { get; set; }
 }

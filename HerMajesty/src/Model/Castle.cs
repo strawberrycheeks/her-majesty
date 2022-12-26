@@ -34,16 +34,16 @@ public class Castle : IHostedService
     /// <summary>
     /// The main method of the program where the prince is selected by the princess
     /// </summary>
-    private void Run()
+    private async Task Run()
     {
         try
         {
             ClearResultFile();
             if (AppSettings.AttemptNumber == null)
             {
-                RunAllAttempts();
+                await RunAllAttempts();
             } else {
-                RunAttempt(AppSettings.AttemptNumber.Value);
+                await RunAttempt(AppSettings.AttemptNumber.Value);
             }
         }
         catch (System.Exception ex)
@@ -56,30 +56,28 @@ public class Castle : IHostedService
         }
     }
 
-    private void RunAllAttempts()
+    private async Task RunAllAttempts()
     {
-        var attempts = _attemptRepository
-            .GetAllAttemptsAsync().Result?.ToList();
-        
-        if (attempts == null || attempts.Count == 0)
+        var attempts = await _attemptRepository.GetAllAttemptsAsync();
+        if (attempts == null)
         {
             throw new AttemptNotFoundException(0);
         }
-
+        
         var sum = 0.0;
-        foreach (var at in attempts)
+        foreach (var at in attempts.ToList())
         {
-            _hall.FillContendersList(int.Parse(at.AttemptNumber));
+            await _hall.FillContendersList(at.AttemptNumber);
             var chosenPrince = _princess.ChoosePrince();
             sum += Princess.CalculateHappinessPoints(chosenPrince?.Score);
-            PrintAttemptResult(int.Parse(at.AttemptNumber), chosenPrince);
+            PrintAttemptResult(at.AttemptNumber, chosenPrince);
         }
-        PrintAverageResult(attempts.Count, sum);
+        PrintAverageResult(attempts.Count(), sum);
     }
 
-    private void RunAttempt(int attemptNumber)
+    private async Task RunAttempt(int attemptNumber)
     {
-        _hall.FillContendersList(attemptNumber);
+        await _hall.FillContendersList(attemptNumber);
         var chosenPrince = _princess.ChoosePrince();
         PrintAttemptResult(attemptNumber, chosenPrince);
     }

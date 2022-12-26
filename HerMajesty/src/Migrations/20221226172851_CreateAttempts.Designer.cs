@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HerMajesty.src.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20221226015218_CreateAttempts")]
+    [Migration("20221226172851_CreateAttempts")]
     partial class CreateAttempts
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace HerMajesty.src.Migrations
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
-            modelBuilder.Entity("HerMajesty.DbModel.AttemptEntity", b =>
+            modelBuilder.Entity("HerMajesty.Entity.AttemptEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,16 +32,15 @@ namespace HerMajesty.src.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AttemptNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("AttemptNumber")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("Attempts");
                 });
 
-            modelBuilder.Entity("HerMajesty.DbModel.ContenderEntity", b =>
+            modelBuilder.Entity("HerMajesty.Entity.ContenderEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,6 +52,7 @@ namespace HerMajesty.src.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Order")
@@ -68,9 +68,9 @@ namespace HerMajesty.src.Migrations
                     b.ToTable("Contenders");
                 });
 
-            modelBuilder.Entity("HerMajesty.DbModel.ContenderEntity", b =>
+            modelBuilder.Entity("HerMajesty.Entity.ContenderEntity", b =>
                 {
-                    b.HasOne("HerMajesty.DbModel.AttemptEntity", "AttemptEntity")
+                    b.HasOne("HerMajesty.Entity.AttemptEntity", "AttemptEntity")
                         .WithMany("Contenders")
                         .HasForeignKey("AttemptEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -79,7 +79,7 @@ namespace HerMajesty.src.Migrations
                     b.Navigation("AttemptEntity");
                 });
 
-            modelBuilder.Entity("HerMajesty.DbModel.AttemptEntity", b =>
+            modelBuilder.Entity("HerMajesty.Entity.AttemptEntity", b =>
                 {
                     b.Navigation("Contenders");
                 });

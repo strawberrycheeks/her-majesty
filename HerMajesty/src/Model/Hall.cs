@@ -29,16 +29,16 @@ public class Hall : IHall
     /// <summary>
     /// Returns the filled and shuffled list of contenders
     /// </summary>
-    public void FillContendersList(int attemptNumber)
+    public async Task FillContendersList(int attemptNumber)
     {
-        var attemptEntity = _attemptRepository.GetAttemptByNumberAsync(attemptNumber.ToString());
+        var attemptEntity = await _attemptRepository.GetAttemptByNumberAsync(attemptNumber);
         
-        if (attemptEntity.Result == null)
+        if (attemptEntity == null)
         {
             throw new AttemptNotFoundException(attemptNumber);
         }
 
-        _contenderList = Map(attemptEntity.Result.Contenders);
+        _contenderList = Map(attemptEntity.Contenders);
         _enumerator = _contenderList.GetEnumerator();
     }
 

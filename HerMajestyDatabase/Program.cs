@@ -20,8 +20,8 @@ public static class Program
 
             var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>().UseNpgsql(AppSettings.DbConnection);
 
-            await using var dbc = new PostgresDbContext(optionsBuilder.Options);
-            await AttemptGenerator.GenerateAsync(dbc, AppSettings.AttemptCount);
+            await using var context = new PostgresDbContext(optionsBuilder.Options);
+            await AttemptGenerator.GenerateAsync(context, AppSettings.AttemptCount);
         } catch (Exception ex)
         {
             Console.WriteLine($"{ex.GetType()}: {ex.Message}");

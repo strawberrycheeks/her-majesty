@@ -20,7 +20,7 @@ public class OptimalStrategyTests
     private const int CutOffContenderScore = 38; // Equals to {DefaultContenderCount}/ Math.E
     private const int TestAttemptNumber = 1; 
     
-    private PostgresDbContext _dbc;
+    private PostgresDbContext _context;
     private IStrategy _strategy;
     private IHall _hall;
     
@@ -30,9 +30,9 @@ public class OptimalStrategyTests
         var options = new DbContextOptionsBuilder<PostgresDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        _dbc = new PostgresDbContext(options);
+        _context = new PostgresDbContext(options);
 
-        IAttemptRepository repository = new AttemptRepository(_dbc);
+        IAttemptRepository repository = new AttemptRepository(_context);
         _hall = new Hall(repository);
         _strategy = new OptimalStrategy(
             new Friend(), 
@@ -43,12 +43,12 @@ public class OptimalStrategyTests
     [Test]
     public void ChooseBestContender_ScoreOfChosenContenderGreaterThan50_ReturnsContender()
     {
-        _dbc.Attempts.Add(new AttemptEntity
+        _context.Attempts.Add(new AttemptEntity
         {
-            AttemptNumber = TestAttemptNumber.ToString(),
+            AttemptNumber = TestAttemptNumber,
             Contenders = MockContenderList.GetMaximalHappinessList()
         });
-        _dbc.SaveChanges();
+        _context.SaveChanges();
         
         _hall.FillContendersList(TestAttemptNumber);
 
@@ -60,12 +60,12 @@ public class OptimalStrategyTests
     [Test]
     public void ChooseBestContender_ScoreOfChosenContenderLessThan50_ReturnsContender()
     {
-        _dbc.Attempts.Add(new AttemptEntity
+        _context.Attempts.Add(new AttemptEntity
         {
-            AttemptNumber = TestAttemptNumber.ToString(),
+            AttemptNumber = TestAttemptNumber,
             Contenders = MockContenderList.GetAscendingList()
         });
-        _dbc.SaveChanges();
+        _context.SaveChanges();
         
         _hall.FillContendersList(TestAttemptNumber);
     
@@ -77,12 +77,12 @@ public class OptimalStrategyTests
     [Test]
     public void ChooseBestContender_NoContenderChosen_ReturnsNull()
     {
-        _dbc.Attempts.Add(new AttemptEntity
+        _context.Attempts.Add(new AttemptEntity
         {
-            AttemptNumber = TestAttemptNumber.ToString(),
+            AttemptNumber = TestAttemptNumber,
             Contenders = MockContenderList.GetDescendingList()
         });
-        _dbc.SaveChanges();
+        _context.SaveChanges();
         
         _hall.FillContendersList(TestAttemptNumber);
         _strategy.ChooseBestContender().Should().BeNull();

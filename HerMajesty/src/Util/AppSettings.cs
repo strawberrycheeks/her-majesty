@@ -36,7 +36,7 @@ public static class AppSettings
     /// <summary>
     /// Information about database connection
     /// </summary>
-    public static string DbConnection { get; private set; } = "Host=localhost;Port=5432;Database=hermajesty;Username=admin;Password=1234";
+    public static string DbConnection { get; private set; }
 
     public static void LoadConfigurationSettings(IConfiguration configuration)
     {

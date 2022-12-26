@@ -18,7 +18,7 @@ public class CastleTests
     private const int CutOffContenderScore = 38; // Equals to {DefaultContenderCount}/ Math.E
     private const int TestAttemptNumber = 1; 
     
-    private PostgresDbContext _dbc;
+    private PostgresDbContext _context;
     private IStrategy _strategy;
     private IHall _hall;
     
@@ -28,9 +28,9 @@ public class CastleTests
         var options = new DbContextOptionsBuilder<PostgresDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        _dbc = new PostgresDbContext(options);
+        _context = new PostgresDbContext(options);
 
-        IAttemptRepository repository = new AttemptRepository(_dbc);
+        IAttemptRepository repository = new AttemptRepository(_context);
         _hall = new Hall(repository);
         _strategy = new OptimalStrategy(
             new Friend(), 
@@ -41,12 +41,12 @@ public class CastleTests
     [Test]
     public void RunAttempt_ScoreOfChosenPrinceLessThan50_ReturnsBadPrinceChosenScore()
     {
-        _dbc.Attempts.Add(new AttemptEntity
+        _context.Attempts.Add(new AttemptEntity
         {
-            AttemptNumber = TestAttemptNumber.ToString(),
+            AttemptNumber = TestAttemptNumber,
             Contenders = MockContenderList.GetAscendingList()
         });
-        _dbc.SaveChanges();
+        _context.SaveChanges();
         
         _hall.FillContendersList(TestAttemptNumber);
         var chosen = new Princess(_strategy).ChoosePrince();
@@ -57,12 +57,12 @@ public class CastleTests
     [Test]
     public void RunAttempt_NoPrinceChosen_ReturnsNoPrinceChosenScore()
     {
-        _dbc.Attempts.Add(new AttemptEntity
+        _context.Attempts.Add(new AttemptEntity
         {
-            AttemptNumber = TestAttemptNumber.ToString(),
+            AttemptNumber = TestAttemptNumber,
             Contenders = MockContenderList.GetDescendingList()
         });
-        _dbc.SaveChanges();
+        _context.SaveChanges();
 
         _hall.FillContendersList(TestAttemptNumber);
         var chosen = new Princess(_strategy).ChoosePrince();
