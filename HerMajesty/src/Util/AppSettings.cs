@@ -49,17 +49,17 @@ public static class AppSettings
     
     private static void SetAttemptCount(string? value)
     {
-        if (!string.IsNullOrEmpty(value))
+        if (value != null && int.TryParse(value, out var parsed))
         {
-            AttemptCount = int.Parse(value);
+            AttemptCount = parsed;
         }
     }
 
     private static void SetContenderCount(string? value)
     {
-        if (!string.IsNullOrEmpty(value))
+        if (value != null && int.TryParse(value, out var parsed))
         {
-            ContenderCount = int.Parse(value);
+            ContenderCount = parsed;
         }
     }
     

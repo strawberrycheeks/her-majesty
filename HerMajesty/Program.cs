@@ -18,16 +18,15 @@ public static class Program
     {
         try
         {
-            ParseAttemptNumber(args);
+            if (!ParseAttemptNumber(args)) return;
+            
             CreateHostBuilder(args)
                 .Build()
                 .Run();
         }
         catch (System.Exception ex)
         {
-            Console.WriteLine(ex is FormatException or OverflowException
-                ? "Expected argument: <attempt-id> should be an integer"
-                : $"{ex.GetType()}: {ex.Message}");
+            Console.WriteLine($"{ex.GetType()}: {ex.Message}");
         }
     }
 
@@ -89,11 +88,18 @@ public static class Program
         });
     }
 
-    private static void ParseAttemptNumber(IReadOnlyList<string> args)
+    private static bool ParseAttemptNumber(IReadOnlyList<string> args)
     {
-        if (args.Count == 0) return;
-        if (string.IsNullOrEmpty(args[0])) return;
-
-        AppSettings.AttemptNumber = int.Parse(args[0]);
+        if (args.Count == 0) return true; // Then should run all attempts
+        if (string.IsNullOrEmpty(args[0])) return false;
+        
+        if (int.TryParse(args[0], out var parsed))
+        {
+            AppSettings.AttemptNumber = parsed;
+            return true;
+        }
+        
+        Console.WriteLine("Expected argument: <attempt-id> should be an integer");
+        return false;
     }
 }
