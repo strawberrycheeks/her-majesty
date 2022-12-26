@@ -16,10 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="src" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\HerMajesty\HerMajesty.csproj" />
     </ItemGroup>
 

@@ -4,7 +4,13 @@ namespace HerMajesty.Util;
 
 public static class AppSettings
 {
+    public const int DefaultAttemptCount = 100;
     public const int DefaultContenderCount = 100;
+    
+    /// <summary>
+    /// Total number of attempts
+    /// </summary>
+    public static int AttemptCount { get; private set; } = DefaultAttemptCount;
     
     /// <summary>
     /// Total number of contenders 
@@ -22,11 +28,26 @@ public static class AppSettings
     /// </summary>
     public static string ResultPath { get; private set; } = "../../../res/result.txt";
 
+    /// <summary>
+    /// Information about database connection
+    /// </summary>
+    public static string DbConnection { get; private set; } = "Host=localhost;Port=5432;Database=hermajesty;Username=admin;Password=1234";
+
     public static void LoadConfigurationSettings(IConfiguration configuration)
     {
+        SetAttemptCount(configuration["AttemptCount"]);
         SetContenderCount(configuration["ContenderCount"]);
         SetContenderPath(configuration["ContenderPath"]);
+        SetDbConnection(configuration["ConnectionStrings:DefaultConnection"]);
         SetResultPath(configuration["ResultPath"]);
+    }
+    
+    private static void SetAttemptCount(string? value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            AttemptCount = int.Parse(value);
+        }
     }
 
     private static void SetContenderCount(string? value)
@@ -42,6 +63,14 @@ public static class AppSettings
         if (!string.IsNullOrEmpty(value))
         {
             ContenderPath = value;
+        }
+    }
+    
+    private static void SetDbConnection(string? value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            DbConnection = value;
         }
     }
     

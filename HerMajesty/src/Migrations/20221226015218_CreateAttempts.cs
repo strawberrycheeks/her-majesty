@@ -16,7 +16,8 @@ namespace HerMajesty.src.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    AttemptNumber = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

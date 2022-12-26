@@ -1,4 +1,4 @@
-namespace HerMajestyDatabase.DbModel;
+namespace HerMajesty.DbModel;
 
 /// <summary>
 /// An attempt entity 
@@ -6,5 +6,6 @@ namespace HerMajestyDatabase.DbModel;
 public class AttemptEntity
 {
     public int Id { get; set; }
+    public string AttemptNumber { get; set; }
     public List<ContenderEntity> Contenders { get; set; }
 }

@@ -1,4 +1,4 @@
-namespace HerMajestyDatabase.DbModel;
+namespace HerMajesty.DbModel;
 
 /// <summary>
 /// A contender entity

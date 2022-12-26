@@ -1,33 +1,32 @@
-﻿using HerMajesty.Context;
-using Microsoft.Extensions.Configuration;
-
-using HerMajestyDatabase;
-using HerMajestyDatabase.Util;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 
-IConfiguration configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .Build();
+using HerMajesty.Context;
+using HerMajesty.Util;
 
-AppSettings.LoadConfigurationSettings(configuration);
+namespace HerMajestyDatabase;
 
-var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>();
-
-// using (var db = new ApplicationContext())
+public static class Program
 {
-    // ContenderEntity user1 = new ContenderEntity { Name = "Tom", Score = 33 };
-    // ContenderEntity user2 = new ContenderEntity { Name = "Alice", Score = 26 };
-    //
-    // db.Users.AddRange(user1, user2);
-    // db.SaveChanges();
-}
+    public static void Main(string[] args)
+    {
+        try
+        {
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
 
-// using (PostgresDbContext db = new PostgresDbContext())
-{
-    // var users = db.Users.ToList();
-    // Console.WriteLine("Users list:");
-    // foreach (ContenderEntity u in users)
-    // {
-    //     Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
-    // }
+            AppSettings.LoadConfigurationSettings(configuration);
+
+            var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>().UseNpgsql(AppSettings.DbConnection);
+            
+            using (var dbc = new PostgresDbContext(optionsBuilder.Options))
+            {
+                AttemptGenerator.Generate(dbc, AppSettings.AttemptCount);
+            }
+        } catch (Exception ex)
+        {
+            Console.WriteLine($"{ex.GetType()}: {ex.Message}");
+        }
+    }
 }

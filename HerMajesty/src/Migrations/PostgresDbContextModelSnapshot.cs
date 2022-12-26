@@ -21,7 +21,7 @@ namespace HerMajesty.src.Migrations
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
-            modelBuilder.Entity("HerMajestyDatabase.DbModel.AttemptEntity", b =>
+            modelBuilder.Entity("HerMajesty.DbModel.AttemptEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,12 +29,16 @@ namespace HerMajesty.src.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AttemptNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Attempts");
                 });
 
-            modelBuilder.Entity("HerMajestyDatabase.DbModel.ContenderEntity", b =>
+            modelBuilder.Entity("HerMajesty.DbModel.ContenderEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,9 +65,9 @@ namespace HerMajesty.src.Migrations
                     b.ToTable("Contenders");
                 });
 
-            modelBuilder.Entity("HerMajestyDatabase.DbModel.ContenderEntity", b =>
+            modelBuilder.Entity("HerMajesty.DbModel.ContenderEntity", b =>
                 {
-                    b.HasOne("HerMajestyDatabase.DbModel.AttemptEntity", "AttemptEntity")
+                    b.HasOne("HerMajesty.DbModel.AttemptEntity", "AttemptEntity")
                         .WithMany("Contenders")
                         .HasForeignKey("AttemptEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -72,7 +76,7 @@ namespace HerMajesty.src.Migrations
                     b.Navigation("AttemptEntity");
                 });
 
-            modelBuilder.Entity("HerMajestyDatabase.DbModel.AttemptEntity", b =>
+            modelBuilder.Entity("HerMajesty.DbModel.AttemptEntity", b =>
                 {
                     b.Navigation("Contenders");
                 });

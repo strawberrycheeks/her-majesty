@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Configuration;
+using HerMajesty.Context;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -6,10 +8,11 @@ using Microsoft.Extensions.Logging;
 using HerMajesty.Strategy;
 using HerMajesty.Model;
 using HerMajesty.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace HerMajesty;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
@@ -57,6 +60,10 @@ public class Program
                 .AddScoped<IStrategy, OptimalStrategy>()
                 .AddScoped<IContenderListGenerator, ContenderListGenerator>();
 
+            services.AddDbContext<PostgresDbContext>(
+                o => o.UseNpgsql(AppSettings.DbConnection)
+            );
+            
             if (hostContext.HostingEnvironment.EnvironmentName.Equals("Production"))
             {
                 AddLogging(services);
@@ -72,9 +79,7 @@ public class Program
             services.AddLogging(loggingBuilder => {
                 loggingBuilder.AddFile("../../../logs/app-{0:yyyy}-{0:MM}-{0:dd}-{0:HH}-{0:mm}-{0:ss}.log", 
                     fileLoggerOpts => {
-                        fileLoggerOpts.FormatLogFileName = fName => {
-                            return String.Format(fName, DateTime.Now);
-                        };
+                        fileLoggerOpts.FormatLogFileName = fName => string.Format(fName, DateTime.Now);
                     });
             });
         });
