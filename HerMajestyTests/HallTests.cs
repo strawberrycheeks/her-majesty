@@ -1,7 +1,6 @@
 using FluentAssertions;
 using HerMajesty.Context;
 using HerMajesty.Entity;
-using NSubstitute;
 
 using HerMajesty.Model;
 using HerMajesty.Repository;

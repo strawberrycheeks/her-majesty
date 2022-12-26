@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HerMajesty\HerMajesty.csproj" />
+      <ProjectReference Include="..\HerMajestyDatabase\HerMajestyDatabase.csproj" />
     </ItemGroup>
 
 </Project>
