@@ -1,4 +1,5 @@
 // using FluentAssertions;
+// using HerMajesty.Context;
 // using NSubstitute;
 //
 // using HerMajesty.Model;
@@ -10,16 +11,16 @@
 // public class HallTests
 // {
 //     private IHall _hall;
-//     private readonly IContenderListGenerator _mockedGenerator = Substitute.For<IContenderListGenerator>();
+//     private readonly PostgresDbContext _mockedDbContext = Substitute.For<PostgresDbContext>();
 //     
 //     [SetUp]
 //     public void SetUp()
 //     {
-//         _mockedGenerator.GenerateContenderList().Returns(
+//         _mockedDbContext.GenerateContenderList().Returns(
 //             MockContenderListGenerator.GenerateAscendingList()
 //         );
 //         
-//         _hall = new Hall(_mockedGenerator);
+//         _hall = new Hall(_mockedDbContext);
 //     }
 //     
 //     [Test]

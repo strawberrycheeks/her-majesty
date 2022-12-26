@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using HerMajesty.Context;
 using HerMajesty.Model;
+using HerMajesty.Repository;
 using HerMajesty.Strategy;
 using HerMajesty.Util;
 
@@ -62,10 +63,11 @@ public static class Program
                 .AddScoped<IStrategy, OptimalStrategy>()
                 .AddScoped<IContenderListGenerator, ContenderListGenerator>();
 
-            services.AddDbContext<PostgresDbContext>(
-                o => o.UseNpgsql(AppSettings.DbConnection)
-            );
-            
+            services
+                .AddDbContext<PostgresDbContext>(
+                    o => o.UseNpgsql(AppSettings.DbConnection))
+                .AddScoped<IAttemptRepository, AttemptRepository>();
+
             if (hostContext.HostingEnvironment.EnvironmentName.Equals("Production"))
             {
                 AddLogging(services);

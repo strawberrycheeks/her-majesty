@@ -1,7 +1,6 @@
-﻿using HerMajesty.Context;
-using HerMajesty.DbModel;
+﻿using HerMajesty.DbModel;
 using HerMajesty.Exception;
-using Microsoft.EntityFrameworkCore;
+using HerMajesty.Repository;
 
 namespace HerMajesty.Model;
 
@@ -18,11 +17,11 @@ public class Hall : IHall
     /// </summary>
     private List<Contender>.Enumerator _enumerator;
     
-    private readonly PostgresDbContext _dbc;
+    private readonly IAttemptRepository _attemptRepository;
 
-    public Hall(PostgresDbContext dbc)
+    public Hall(IAttemptRepository attemptRepository)
     {
-        _dbc = dbc;
+        _attemptRepository = attemptRepository;
         _contenderList = new List<Contender>();
         _enumerator = _contenderList.GetEnumerator();
     }
@@ -32,9 +31,7 @@ public class Hall : IHall
     /// </summary>
     public void FillContendersList(int attemptNumber)
     {
-        var attemptEntity = _dbc.Attempts
-            .Include(c => c.Contenders)
-            .FirstOrDefaultAsync(a => a.AttemptNumber == attemptNumber.ToString());
+        var attemptEntity = _attemptRepository.GetAttemptByNumberAsync(attemptNumber.ToString());
         
         if (attemptEntity.Result == null)
         {
