@@ -15,7 +15,7 @@ public class Castle : IHostedService
     private readonly IHall _hall;
     private readonly Princess _princess;
 
-    private PostgresDbContext _dbc;
+    private readonly PostgresDbContext _dbc;
 
     public Castle(
         IHall hall, 
@@ -34,15 +34,15 @@ public class Castle : IHostedService
     /// <summary>
     /// The main method of the program where the prince is selected by the princess
     /// </summary>
-    private void Run()
+    private async void Run()
     {
         try
         {
             if (AppSettings.AttemptNumber == null)
             {
-                RunAllAttempts();
+                await RunAllAttempts();
             } else {
-                RunAttempt(AppSettings.AttemptNumber.Value);
+                await RunAttempt(AppSettings.AttemptNumber.Value);
             }
         }
         catch (System.Exception ex)
@@ -64,10 +64,19 @@ public class Castle : IHostedService
         var attempts = await _dbc.Attempts
             .Include(c => c.Contenders)
             .ToListAsync();
+
+        foreach (var at in attempts)
+        {
+            _hall.FillContendersList(int.Parse(at.AttemptNumber));
+            var chosenPrince = _princess.ChoosePrince();
+            PrintResult(chosenPrince);
+        }
+        
+        
         // var sum = attempts.Sum(at => _princess.ChoosePrince(at.AttemptNumber));
     }
 
-    private async void RunAttempt(int attemptNumber)
+    private async Task RunAttempt(int attemptNumber)
     {
         
     }
@@ -79,7 +88,8 @@ public class Castle : IHostedService
     private static void PrintResult(Contender? chosenPrince)
     {
         using var writer = new StreamWriter(AppSettings.ResultPath, false);
-
+        // using var writer = new StreamWriter(Console.OpenStandardOutput());
+        
         var chosenPrinceScore = chosenPrince?.Score;
         if (chosenPrince != null)
         {

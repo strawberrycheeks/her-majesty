@@ -1,12 +1,12 @@
-﻿namespace HerMajesty.Model;
+﻿using HerMajesty.Context;
+using HerMajesty.DbModel;
+using HerMajesty.Exception;
+using Microsoft.EntityFrameworkCore;
+
+namespace HerMajesty.Model;
 
 public class Hall : IHall
 {
-    /// <summary>
-    /// Generates a shuffled list of contenders
-    /// </summary>
-    private readonly IContenderListGenerator _contenderListGenerator;
-    
     /// <summary>
     /// List of contenders waiting for audience with Princess in the hall,
     /// must contain a list of 100 unique contenders
@@ -17,10 +17,12 @@ public class Hall : IHall
     /// Enumerator for the list of contenders
     /// </summary>
     private List<Contender>.Enumerator _enumerator;
+    
+    private readonly PostgresDbContext _dbc;
 
-    public Hall(IContenderListGenerator contenderListGenerator)
+    public Hall(PostgresDbContext dbc)
     {
-        _contenderListGenerator = contenderListGenerator;
+        _dbc = dbc;
         _contenderList = new List<Contender>();
         _enumerator = _contenderList.GetEnumerator();
     }
@@ -28,9 +30,18 @@ public class Hall : IHall
     /// <summary>
     /// Returns the filled and shuffled list of contenders
     /// </summary>
-    public void FillContendersList()
+    public void FillContendersList(int attemptNumber)
     {
-        _contenderList = _contenderListGenerator.GenerateContenderList();
+        var attemptEntity = _dbc.Attempts
+            .Include(c => c.Contenders)
+            .FirstOrDefaultAsync(a => a.AttemptNumber == attemptNumber.ToString());
+        
+        if (attemptEntity.Result == null)
+        {
+            throw new AttemptNotFoundException(attemptNumber);
+        }
+
+        _contenderList = Map(attemptEntity.Result.Contenders);
         _enumerator = _contenderList.GetEnumerator();
     }
 
@@ -44,5 +55,16 @@ public class Hall : IHall
     public Contender? GetNextContender()
     {
         return _enumerator.MoveNext() ? _enumerator.Current : null;
+    }
+    
+    /// <summary>
+    /// Maps a collection of database entities to the collection of app entities
+    /// </summary>
+    /// <param name="contenders"> A collection to be mapped </param>
+    /// <returns> Returns a mapped collection of app entities </returns>
+    private static List<Contender> Map(IEnumerable<ContenderEntity> contenders)
+    {
+        return contenders.OrderBy(ce => ce.Order)
+            .Select(ce => new Contender(ce.Score, ce.Name!)).ToList();
     }
 }
