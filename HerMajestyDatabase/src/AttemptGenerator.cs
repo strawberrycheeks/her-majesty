@@ -1,5 +1,5 @@
 using HerMajesty.Context;
-using HerMajesty.DbModel;
+using HerMajesty.Entity;
 using HerMajesty.Model;
 
 namespace HerMajestyDatabase;

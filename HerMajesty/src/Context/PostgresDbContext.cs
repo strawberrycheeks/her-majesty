@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-using HerMajesty.DbModel;
+using HerMajesty.Entity;
 
 namespace HerMajesty.Context;
 

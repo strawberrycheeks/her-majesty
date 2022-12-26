@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using HerMajesty.Context;
-using HerMajesty.DbModel;
+using HerMajesty.Entity;
 
 namespace HerMajesty.Repository;
 

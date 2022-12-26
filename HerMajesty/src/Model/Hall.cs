@@ -1,4 +1,4 @@
-﻿using HerMajesty.DbModel;
+﻿using HerMajesty.Entity;
 using HerMajesty.Exception;
 using HerMajesty.Repository;
 

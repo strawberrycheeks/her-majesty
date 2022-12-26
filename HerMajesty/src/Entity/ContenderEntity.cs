@@ -1,4 +1,4 @@
-namespace HerMajesty.DbModel;
+namespace HerMajesty.Entity;
 
 /// <summary>
 /// An entity for contender to be stored in a database

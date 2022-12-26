@@ -1,4 +1,4 @@
-using HerMajesty.DbModel;
+using HerMajesty.Entity;
 
 namespace HerMajesty.Repository;
 
