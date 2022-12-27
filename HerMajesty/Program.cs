@@ -1,20 +1,25 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using HerMajesty.Strategy;
+using HerMajesty.Context;
 using HerMajesty.Model;
+using HerMajesty.Repository;
+using HerMajesty.Strategy;
 using HerMajesty.Util;
 
 namespace HerMajesty;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
         try
         {
+            if (!ParseAttemptNumber(args)) return;
+            
             CreateHostBuilder(args)
                 .Build()
                 .Run();
@@ -57,6 +62,11 @@ public class Program
                 .AddScoped<IStrategy, OptimalStrategy>()
                 .AddScoped<IContenderListGenerator, ContenderListGenerator>();
 
+            services
+                .AddDbContext<PostgresDbContext>(
+                    o => o.UseNpgsql(AppSettings.DbConnection))
+                .AddScoped<IAttemptRepository, AttemptRepository>();
+
             if (hostContext.HostingEnvironment.EnvironmentName.Equals("Production"))
             {
                 AddLogging(services);
@@ -72,11 +82,24 @@ public class Program
             services.AddLogging(loggingBuilder => {
                 loggingBuilder.AddFile("../../../logs/app-{0:yyyy}-{0:MM}-{0:dd}-{0:HH}-{0:mm}-{0:ss}.log", 
                     fileLoggerOpts => {
-                        fileLoggerOpts.FormatLogFileName = fName => {
-                            return String.Format(fName, DateTime.Now);
-                        };
+                        fileLoggerOpts.FormatLogFileName = fName => string.Format(fName, DateTime.Now);
                     });
             });
         });
+    }
+
+    private static bool ParseAttemptNumber(IReadOnlyList<string> args)
+    {
+        if (args.Count == 0) return true; // Then should run all attempts
+        if (string.IsNullOrEmpty(args[0])) return false;
+        
+        if (int.TryParse(args[0], out var parsed))
+        {
+            AppSettings.AttemptNumber = parsed;
+            return true;
+        }
+        
+        Console.WriteLine("Expected argument: <attempt-id> should be an integer");
+        return false;
     }
 }

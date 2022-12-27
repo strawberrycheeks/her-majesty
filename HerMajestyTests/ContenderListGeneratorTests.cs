@@ -16,7 +16,7 @@ public class ContenderListGeneratorTests
     {
         _generator = new ContenderListGenerator();
     }
-    
+     
     [Test]
     public void GenerateContenderList_ReturnsListOf100UniqueContenders()
     {

@@ -1,6 +1,4 @@
-﻿using HerMajesty.Util;
-
-namespace HerMajesty.Exception;
+﻿namespace HerMajesty.Exception;
 
 public class InvalidContendersNumberException : HerMajestyAppException
 {

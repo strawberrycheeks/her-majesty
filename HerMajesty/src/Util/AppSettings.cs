@@ -4,7 +4,18 @@ namespace HerMajesty.Util;
 
 public static class AppSettings
 {
+    public const int DefaultAttemptCount = 100;
     public const int DefaultContenderCount = 100;
+
+    /// <summary>
+    /// A number of attempt from the database
+    /// </summary>
+    public static int? AttemptNumber { get; set; } = null;
+    
+    /// <summary>
+    /// Total number of attempts
+    /// </summary>
+    public static int AttemptCount { get; private set; } = DefaultAttemptCount;
     
     /// <summary>
     /// Total number of contenders 
@@ -22,18 +33,33 @@ public static class AppSettings
     /// </summary>
     public static string ResultPath { get; private set; } = "../../../res/result.txt";
 
+    /// <summary>
+    /// Information about database connection
+    /// </summary>
+    public static string DbConnection { get; private set; }
+
     public static void LoadConfigurationSettings(IConfiguration configuration)
     {
+        SetAttemptCount(configuration["AttemptCount"]);
         SetContenderCount(configuration["ContenderCount"]);
         SetContenderPath(configuration["ContenderPath"]);
+        SetDbConnection(configuration["ConnectionStrings:DefaultConnection"]);
         SetResultPath(configuration["ResultPath"]);
+    }
+    
+    private static void SetAttemptCount(string? value)
+    {
+        if (value != null && int.TryParse(value, out var parsed))
+        {
+            AttemptCount = parsed;
+        }
     }
 
     private static void SetContenderCount(string? value)
     {
-        if (!string.IsNullOrEmpty(value))
+        if (value != null && int.TryParse(value, out var parsed))
         {
-            ContenderCount = int.Parse(value);
+            ContenderCount = parsed;
         }
     }
     
@@ -42,6 +68,14 @@ public static class AppSettings
         if (!string.IsNullOrEmpty(value))
         {
             ContenderPath = value;
+        }
+    }
+    
+    private static void SetDbConnection(string? value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            DbConnection = value;
         }
     }
     

@@ -8,15 +8,13 @@ using HerMajesty.Entity;
 using HerMajesty.Model;
 using HerMajesty.Repository;
 using HerMajesty.Strategy;
-using HerMajesty.Util;
 using HerMajestyTests.Mock;
 
 namespace HerMajestyTests;
 
 [TestFixture]
-public class OptimalStrategyTests
+public class CastleTests
 {
-    private const int MaxContenderScore = AppSettings.DefaultContenderCount;
     private const int CutOffContenderScore = 38; // Equals to {DefaultContenderCount}/ Math.E
     private const int TestAttemptNumber = 1; 
     
@@ -25,7 +23,7 @@ public class OptimalStrategyTests
     private IHall _hall;
     
     [SetUp]
-    public void SetupStrategy()
+    public void SetUp()
     {
         var options = new DbContextOptionsBuilder<PostgresDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -39,26 +37,9 @@ public class OptimalStrategyTests
             _hall, 
             Substitute.For<ILogger<OptimalStrategy>>());
     }
-    
-    [Test]
-    public void ChooseBestContender_ScoreOfChosenContenderGreaterThan50_ReturnsContender()
-    {
-        _context.Attempts.Add(new AttemptEntity
-        {
-            AttemptNumber = TestAttemptNumber,
-            Contenders = MockContenderList.GetMaximalHappinessList()
-        });
-        _context.SaveChanges();
-        
-        _hall.FillContendersList(TestAttemptNumber);
 
-        var chosen = _strategy.ChooseBestContender();
-        chosen.Should().NotBeNull();
-        chosen?.Score.Should().Be(MaxContenderScore);
-    }
-    
     [Test]
-    public void ChooseBestContender_ScoreOfChosenContenderLessThan50_ReturnsContender()
+    public void RunAttempt_ScoreOfChosenPrinceLessThan50_ReturnsBadPrinceChosenScore()
     {
         _context.Attempts.Add(new AttemptEntity
         {
@@ -68,14 +49,13 @@ public class OptimalStrategyTests
         _context.SaveChanges();
         
         _hall.FillContendersList(TestAttemptNumber);
-    
-        var chosen = _strategy.ChooseBestContender();
+        var chosen = new Princess(_strategy).ChoosePrince();
         chosen.Should().NotBeNull();
         chosen?.Score.Should().Be(CutOffContenderScore);
     }
     
     [Test]
-    public void ChooseBestContender_NoContenderChosen_ReturnsNull()
+    public void RunAttempt_NoPrinceChosen_ReturnsNoPrinceChosenScore()
     {
         _context.Attempts.Add(new AttemptEntity
         {
@@ -83,8 +63,9 @@ public class OptimalStrategyTests
             Contenders = MockContenderList.GetDescendingList()
         });
         _context.SaveChanges();
-        
+
         _hall.FillContendersList(TestAttemptNumber);
-        _strategy.ChooseBestContender().Should().BeNull();
+        var chosen = new Princess(_strategy).ChoosePrince();
+        chosen.Should().BeNull();
     }
 }

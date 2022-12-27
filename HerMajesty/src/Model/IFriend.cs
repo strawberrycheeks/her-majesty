@@ -13,4 +13,9 @@ public interface IFriend
     /// Compares the score of the contender with the highest visited contender's score
     /// </summary>
     public bool IsBetterThanVisited(Contender contender);
+
+    /// <summary>
+    /// Resets the list of visited contenders
+    /// </summary>
+    public void ResetVisitedContenderList();
 }

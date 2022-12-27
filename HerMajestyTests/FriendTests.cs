@@ -59,7 +59,7 @@ public class FriendTests
     }
 
     private static IFriend CreateDefaultFriend()
-    {
+     {
         return new Friend();
     }
     
